@@ -1,0 +1,352 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #C7C2AA;
+}
+
+
+@font-face {
+    font-family: theFont;
+    src: url('../font/Roboto-Regular.ttf');
+}
+
+*:focus {
+    outline: none;
+}
+
+.topbar{
+    display: flex;
+    align-items: center;
+    height: 58px;
+    width: 100%;
+    position: fixed;
+    font-family: theFont;
+    background-color: #C7C2AA;
+    border-bottom: #45423A solid 2px;
+    padding: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+    z-index: 2;
+}
+
+.click-link{
+    text-decoration: none;
+    display: inline-block;
+    color: #49463D;
+    font-size: 16px;
+    overflow: hidden;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+}
+
+.nav-item{
+    float: left;
+    list-style: none ;
+    width: 100px;
+    height: 25px;
+    background-color: #A39F8B;
+    margin-left: 20px;
+}
+
+.navbar-outer{
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+
+}
+
+.title-outer{
+    display: flex;
+    text-align: center ;
+    width: 223px;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand{
+    font-size: 20px;
+    color: #49463D;
+}
+
+.brand:hover{
+    text-decoration: none;
+    color: #49463D;
+}
+
+.navbar-container{
+    padding-top: 23px;
+    width: 974px;
+}
+
+
+.right-link:hover{
+    text-decoration: none;
+    background: #49463D;
+    color: #C7C2AA;
+}
+
+.dropdown-menu{
+    border: none;
+    min-width: 0px;
+    width: 100px;
+    padding: 0;
+    font-family: theFont;
+    border-radius: 0px;
+    top: 23px;
+}
+
+.user-item{
+    width: 100px;
+    background-color: #D3CDB5;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    list-style: none;
+    height: 25px;
+}
+
+.user-item .click-link{
+    width: 100px;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    text-align: left;
+    padding-left: 7px;
+    height: 100%;
+}
+
+.toggle{
+    box-sizing: border-box;
+    color: #49463D;
+    font-size: 20px;
+    display: none;
+    cursor: pointer;
+}
+
+.right-ele{
+    float: right;
+}
+
+.inner-link{
+    overflow: hidden;
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    height: 25px;
+}
+
+.currentUser{
+    display: none;
+    font-size: 18px;
+    color: #49463D;
+}
+
+.inner-accessList{
+    font-size: 18px;
+    color: #49463D;
+}
+
+.accessLists{
+    display: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 13%;
+    align-items: center;
+    justify-content: center;
+    background-color: #A39F8B;
+}
+
+.accessLists:hover{
+    background-color: #49463D;
+    color: #D1CBB3;
+    cursor: pointer;
+}
+
+.accessLists:hover i{
+    background-color: #49463D;
+    color: #D1CBB3;
+}
+
+.inner-accessLogin{
+    font-size: 18px;
+    color: #49463D;
+}
+
+.accessLogins{
+    display: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 13%;
+    align-items: center;
+    justify-content: center;
+    background-color: #A39F8B;
+}
+
+.accessLogins:hover{
+    background-color: #49463D;
+    color: #D1CBB3;
+    cursor: pointer;
+}
+
+.accessLogins:hover i{
+    background-color: #49463D;
+    color: #D1CBB3;
+}
+
+.icon-user:hover{
+    text-decoration: none;
+    background: #49463D;
+    color: #C7C2AA;
+}
+
+.icon-user:hover{
+    text-decoration: none;
+    background: #49463D;
+    color: #C7C2AA;
+}
+
+.user-link:hover{
+    text-decoration: none !important;
+    background: #49463D !important;
+    color: #C7C2AA !important;
+}
+
+.unlogin-nav:hover{
+    text-decoration: none;
+    background: #49463D;
+    color: #C7C2AA;
+}
+
+@media (max-width:1215px) {
+    .brand{
+        margin-left: 15px;
+    }
+    .toggle{
+        display: flex;
+    }
+
+    .right-ele{
+        margin-right: 30px;
+    }
+}
+
+@media (max-width: 980px) {
+
+    .inner-link{
+        display: none;
+    }
+
+    .currentUser{
+        display: inline-block;
+        margin: auto;
+    }
+
+    .click-link{
+        text-align: center;
+        padding: 0;
+    }
+
+    .top-dd{
+        width: 30px;
+        height: 30px;
+        border-radius: 13%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .navbar-container{
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+    }
+
+    .nav-item{
+        float: none;
+        margin: 0;
+
+    }
+
+    .left-ele{
+        display: none;
+        position: absolute;
+        top: 47px;
+        right: 30px;
+    }
+
+    .left-ele .nav-item{
+        background-color: #D3CDB5;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+    }
+
+    .left-ele .click-link{
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+        text-align: left;
+        padding-left: 7px;
+        height: 100%;
+    }
+    .right-ele{
+        margin-left: 14px;
+    }
+
+    .accessLists{
+        display: flex;
+    }
+
+    .theActive{
+        display: block;
+    }
+
+    .icon-user{
+        height: 100%;
+        display: flex;
+    }
+
+
+    .fa-user{
+        display: flex;
+        justify-content: center;
+    }
+
+    /*Register and Login button*/
+
+    .accessLogins{
+        display: flex;
+    }
+
+    .icon-user:hover{
+        text-decoration: none;
+        background: unset !important;
+        color: unset !important;
+    }
+
+    .top-dd:hover{
+        background: #49463D;
+    }
+
+    .top-dd:hover .currentUser{
+        text-decoration: none;
+        background: #49463D;
+        color: #C7C2AA;
+    }
+
+    .user-menu{
+        top: 1px !important;
+        left: -25px !important;
+    }
+}
+
+@media (max-width: 914px) {
+    .toggle{
+        margin-left: 20px;
+    }
+}

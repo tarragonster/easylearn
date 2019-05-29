@@ -1,0 +1,105 @@
+@font-face {
+    font-family: theFont;
+    src: url('../font/Roboto-Regular.ttf');
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    outline:none !important;
+}
+
+*:focus {
+    outline: none;
+}
+
+.card{
+    font-family: theFont;
+    margin-top: 79px;
+    border: none;
+    border-radius: unset;
+    color: #49463D;
+}
+
+.card-header{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: unset !important;
+    font-family: theFont;
+    color: #D1CBB3;
+    background-color: #49463D;
+    font-size: 16px;
+}
+
+.card-body{
+    background-color: #D1CBB3;
+}
+
+label[for=email]{
+    font-weight: bold;
+}
+
+label[for=password]{
+    font-weight: bold;
+}
+
+#email{
+    font-family: theFont;
+    color: #49463D;
+    border-radius: unset;
+    background-color: #E5DBAC !important;
+    border: 1px solid rgba(73, 70, 61, 0.48);
+    -webkit-appearance: none !important;
+    outline: none !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px #E5DBAC inset !important;
+    -webkit-text-fill-color: #49463D !important;
+    -webkit-appearance: none !important;
+}
+
+#password{
+    font-family: theFont;
+    color: #49463D;
+    border-radius: unset;
+    background-color: #E5DBAC !important;
+    border: 1px solid rgba(73, 70, 61, 0.48);
+    -webkit-appearance: none;
+}
+
+.btn-primary{
+    font-family: theFont;
+    border-radius: unset;
+    color: #49463D;
+    background-color: #B8987E;
+    border: none;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.btn-primary:hover{
+    background-color: #49463D;
+    color: #D1CBB3;
+}
+
+.help-block{
+    font-size: 13px;
+    color: #A63F3F;
+}
+
+label[for=password-confirm]{
+    font-weight: bold;
+}
+
+#password-confirm{
+    font-family: theFont;
+    color: #49463D;
+    border-radius: unset;
+    background-color: #E5DBAC !important;
+    border: 1px solid rgba(73, 70, 61, 0.48);
+    -webkit-appearance: none;
+}
