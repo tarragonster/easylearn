@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use App\PublicList;
 
 class User extends Authenticatable
 {
@@ -45,6 +46,10 @@ class User extends Authenticatable
 
     public function imagePost(){
         return $this->hasMany('App\imagePost');
+    }
+
+    public function publicList(){
+        return $this->hasMany('App\PublicList');
     }
 
     public static function GetById($id,$cache=true){

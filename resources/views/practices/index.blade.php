@@ -315,10 +315,11 @@
 
             var list = $(this).parent().parent().find('.nameList').text();
 
-            var data = {id: id, list: list};
+            var url = window.location.href;
+
+            var data = {id: id, list: list, url: url};
 
             var shareBtn = $(this);
-
 
             $.ajax({
                 type: "POST",
@@ -330,7 +331,7 @@
                     shareBtn.text('Share');
                     shareBtn.css('color', '#49463D');
 
-                    if(data == 0){
+                    if (data == 0) {
                         window.location.href = shareBtn.attr('href')
                     }
 
@@ -347,7 +348,7 @@
 
             var data = {id: id, list: list};
 
-            var shareBtn = $(this).parent().find('.shareBtn')
+            var shareBtn = $(this).parent().find('.shareBtn');
 
             $.ajax({
                 type: "POST",
@@ -355,8 +356,13 @@
                 data: data,
                 dataTy: 'json',
                 success: function (data) {
+                    var total = 0;
 
-                    if (data > 0) {
+                    $.each(data, function (i, p) {
+                        total += p.shared;
+                    });
+
+                    if (total > 0) {
 
                         shareBtn.text('Shared');
                         shareBtn.css('color', '#9E1617')

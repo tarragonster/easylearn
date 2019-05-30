@@ -102,3 +102,4 @@ Route::post('/postVideo/update','PostVideoController@update');
 Route::post('/postVideo/restartModal','PostVideoController@restartModal');
 
 Route::get('/public/show','ShareToPublicController@show');
+Route::post('/public/delete','ShareToPublicController@delete');

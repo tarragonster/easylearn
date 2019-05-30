@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Validation\Rules\In;
 use App\Search;
 use Illuminate\Support\Facades\Auth;
+use App\PublicList;
 
 class PracticeController extends Controller
 {
@@ -184,21 +185,38 @@ class PracticeController extends Controller
 
         $list = $request->input('list');
 
+        $url = $request->input('url');
+
+        $searchId = DB::table('searches')->where('list',$list)->where('user_id',$userId)->value('id');
+
         $checkShare = DB::table('searches')->where('list',$list)->where('user_id',$userId)->sum('shared');
 
         if($checkShare == 0){
 
             $share = DB::table('searches')->where('list',$list)->where('user_id',$userId)->update(['shared'=>1]);
 
+            $public = new PublicList;
+
+            $public->user_id = $userId;
+            $public->post_id = $searchId;
+            $public->list_name = $list;
+            $public->link = $url;
+            $public->save();
+
         }else{
             $share = DB::table('searches')->where('list',$list)->where('user_id',$userId)->update(['shared'=>0]);
 
+            $publicDel = DB::table('public_lists')->where('list_name',$list)->where('user_id',$userId)->delete();
         }
-
 
         return response($checkShare);
 
+//        create new row in ShareToPublic table
+
+
+
     }
+
 
     public function checkShare(Request $request){
 
@@ -206,7 +224,7 @@ class PracticeController extends Controller
 
         $list = $request->input('list');
 
-        $checkShare = DB::table('searches')->where('list',$list)->where('user_id',$userId)->sum('shared');
+        $checkShare = DB::table('searches')->where('list',$list)->where('user_id',$userId)->limit(3)->get();
 
         return response($checkShare);
     }

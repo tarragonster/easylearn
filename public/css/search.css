@@ -1167,6 +1167,98 @@ label[for=newList]{
     color: #A63F3F;
 }
 
+/*styling for public page*/
+
+.user-pic{
+    width: 50px;
+    height: 50px;
+    overflow-y: hidden;
+}
+
+.user-pic img{
+    width: 100%;
+}
+
+.creator-info{
+    display: flex;
+}
+
+.info-display{
+    display: inline;
+    margin-left: 3px;
+}
+
+.info-display a{
+    font-weight: bold;
+    color: #B7967D;
+}
+
+.info-display span{
+    color: #49463D;
+    opacity: 0.6;
+}
+
+.word-count{
+    display: inline;
+}
+
+.word-count span{
+    font-size: 0.8rem;
+}
+
+.public-box{
+    background-color: #C7C2AA;
+    padding: 10px;
+}
+
+.not-pic{
+    margin-left: 6px;
+    margin-top: -3px;
+}
+
+.inner-creater{
+    display: flex;
+    justify-content: space-between;
+    background-color: #D1CBB3;
+    padding: 10px;
+}
+
+.user-name span{
+    color: #49463D;
+    font-weight: bold;
+}
+
+.user-name{
+    display: inline;
+}
+
+.time-count{
+    opacity: 0.6;
+    color: #49463D;
+    font-size: 0.8rem;
+}
+
+.delTitle{
+    font-size: 18px;
+    padding: 6px;
+    background-color: #A39F8B;
+    color: #49463D;
+    cursor: pointer;
+}
+
+.elipsisBtn{
+    font-family: theFont !important;
+    left: -81px !important;
+    background-color: #D1CBB3;
+    color: #49463D;
+    border: solid 1px rgba(73, 70, 61, 0.48) !important;
+}
+
+.elipsisBtn span:hover {
+    background-color: #A39F8B;
+    cursor: pointer;
+}
+
 
 @media (max-width:1215px){
     #main{

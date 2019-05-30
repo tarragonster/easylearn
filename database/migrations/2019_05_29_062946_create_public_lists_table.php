@@ -17,6 +17,9 @@ class CreatePublicListsTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('post_id');
+            $table->string('list_name');
+            $table->text('link');
+
 
             $table->timestamps();
         });
