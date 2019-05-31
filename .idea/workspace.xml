@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="13724817-2ba6-47b8-9e6c-aa4cd67afdd8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$" beforeDir="false" afterPath="$PROJECT_DIR$" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../finalProject/.editorconfig" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../finalProject/.env.example" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../finalProject/.gitattributes" beforeDir="false" />
@@ -3418,12 +3417,12 @@
       <workItem from="1559116907080" duration="7722000" />
       <workItem from="1559183995144" duration="32768000" />
       <workItem from="1559270771116" duration="362000" />
-      <workItem from="1559271161956" duration="5211000" />
+      <workItem from="1559271161956" duration="5557000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1983320000" />
+    <option name="totallyTimeSpent" value="1983666000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-1" width="1366" height="728" extended-state="6" />
