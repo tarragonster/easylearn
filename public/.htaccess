@@ -5,6 +5,7 @@ Test.
         Options -MultiViews -Indexes
     </IfModule>
 
+    Options +FollowSymLinks
     RewriteEngine On
 
     DirectoryIndex index.php index.html site-down.php
