@@ -1,9 +1,6 @@
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
-        RewriteEngine On
-        RewriteCond %{QUERY_STRING} ^taxo=([^&]+)&([^=]+)=([^&]+)&([^=]+)=([^&]+)&([^=]+)=(.*)$
-        RewriteRule ^/?$ /%1/%2/%3/%4/%5/%6/%7? [L,R=301]
     </IfModule>
 
     RewriteEngine On
@@ -22,5 +19,6 @@
     # Handle Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+    RewriteRule (.+) index.php/$1 [L]
+#    RewriteRule ^ index.php [L]
 </IfModule>
