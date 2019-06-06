@@ -46,6 +46,8 @@
         </div>
     </div>
 
+    <div class="userId d-none">{{Auth::user()->id}}</div>
+
     <div class="outer-def-container">
         @if(count($defs)>0)
             @foreach($defs as $def)
@@ -557,11 +559,13 @@
             });
 
             $.get("{{'/search/dropdown'}}",function (data) {
+                var userId = $('.userId').text();
+
                 $('.outerListSidebar').empty();
                 $.each(data[0], function (i, p) {
                     n++;
                     $('.outerListSidebar').append($('<div id="div-link"><h3 class="contain-link">' +
-                        '<a class="side-link" href="/lists/'+p.list+'/practice/'+p.user_id+'"><i class="fas fa-folder"></i> '+p.list+'</h3></div>'))
+                        '<a class="side-link" href="/lists/'+p.list+'/practice/'+userId+'"><i class="fas fa-folder"></i> '+p.list+'</h3></div>'))
                 })
             })
         });
