@@ -46,7 +46,7 @@ class PostVideoController extends Controller
 
             }
 
-            $videoPosts = DB::table('videos')->orderBy('updated_at','desc')->paginate(2);
+            $videoPosts = DB::table('videos')->orderBy('created_at','desc')->paginate(2);
 
             foreach ($videoPosts as $key=>$value){
 
@@ -76,7 +76,7 @@ class PostVideoController extends Controller
         $q ='';
         $n = 0;
 
-        $videoPosts = DB::table('videos')->orderBy('updated_at','desc')->paginate(2);
+        $videoPosts = DB::table('videos')->orderBy('created_at','desc')->paginate(2);
 
         foreach ($videoPosts as $key=>$value){
             $videoPosts[$key]->sumComment = commentVid::GetById($value->id,true);

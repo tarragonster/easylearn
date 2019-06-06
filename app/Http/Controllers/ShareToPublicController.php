@@ -20,7 +20,17 @@ class ShareToPublicController extends Controller
         $q ='';
         $n = 0;
 
-        $linkLists = PublicList::all()->sortByDesc('updated_at');
+        $linkLists = PublicList::orderBy('created_at','desc')->paginate(3);
+
+
+        if($request->ajax()){
+
+            return [
+                'public' => view('practices.ajax-public-part')->with('linkLists',$linkLists)->with('n',$n)->render(),
+                'next_page' => $linkLists->nextPageUrl()
+            ];
+
+        }
 
         return view('practices.public')->with('defs', $defs)->with('display',$display)
             ->with('spelling',$spelling)->with('type',$type)->with('example',$example)

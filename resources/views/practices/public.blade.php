@@ -37,7 +37,7 @@
     <div class="outer-def-container shadow rounded">
         <div class="def-container">
             <div class="inner-def">
-                <div class="def-content endless-pagination" data-next-page="">
+                <div class="def-content endless-pagination" data-next-page="{{$linkLists->nextPageUrl()}}">
                     @if(count($linkLists)>0)
                         @foreach($linkLists as $linkList)
                             <div class="outer-word-display public-box shadow rounded">
@@ -55,7 +55,7 @@
                                                     <span>shared a </span>
                                                     <a href="{{$linkList->link}}">word list</a>
                                                     <div
-                                                        class="time-count">{{Carbon\Carbon::parse($linkList->updated_at)->diffForHumans()}}</div>
+                                                        class="time-count">{{Carbon\Carbon::parse($linkList->created_at)->diffForHumans()}}</div>
                                                     <div class="word-count">
                                                         <span>Word count: </span>
                                                         <span>{{$linkList->search->count()}}</span>
@@ -100,5 +100,46 @@
                 </div>
             </div>
         </div>
+        @include('inc.spinner')
     </div>
+<script>
+    $(document).ready(function () {
+
+        $(window).scroll(fetchPosts);
+
+    });
+
+    var isScroll = true;
+
+    function fetchPosts(){
+
+        var page = $('.endless-pagination').data('next-page');
+
+        if(page !== null){
+
+            clearTimeout($.data(this,'scrollCheck'));
+
+            $.data(this,'scrollCheck',setTimeout(function () {
+                var scrollPositionForLoad = $(window).height() +$(window).scrollTop()+100;
+
+                if(scrollPositionForLoad >= $(document).height()){
+
+                    $('.loader').css('display','block');
+
+                    if(isScroll == true){
+                        isScroll = false;
+                        $.get(page,function(data){
+
+                            $('.def-content').append(data.public);
+                            $('.endless-pagination').data('next-page',data.next_page);
+                            isScroll=true;
+
+                            $('.loader').css('display','none');
+                        });
+                    }
+                }
+            },350))
+        }
+    }
+</script>
 @endsection

@@ -61,7 +61,7 @@ class PostImageController extends Controller
                 $imagePost->save();
             }
 
-            $imagePosts = DB::table('image_posts')->orderBy('updated_at','desc')->paginate(2);
+            $imagePosts = DB::table('image_posts')->orderBy('created_at','desc')->paginate(2);
 
 
             foreach ($imagePosts as $key=>$value){
@@ -92,7 +92,7 @@ class PostImageController extends Controller
         $q ='';
         $n = 0;
 
-        $imagePosts = DB::table('image_posts')->orderBy('updated_at','desc')->paginate(2);
+        $imagePosts = DB::table('image_posts')->orderBy('created_at','desc')->paginate(2);
 
         foreach ($imagePosts as $key=>$value){
 
