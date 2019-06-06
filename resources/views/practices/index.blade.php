@@ -131,7 +131,7 @@
             $('.shareBtn').css('display','block')
         });
 
-        $('.dropdown-menu').click(function(e) {
+        $('.elipsisBtn').click(function(e) {
             e.stopPropagation();
         });
 
@@ -342,7 +342,7 @@
 
             var list = $(this).parent().parent().find('.nameList').text();
 
-            var url = window.location.href;
+            var url = window.location.pathname;
 
             var data = {id: id, list: list, url: url};
 
