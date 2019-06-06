@@ -166,61 +166,68 @@
                 if (window.location.href === "{{url('/postImage/show')}}") {
 
                     var count = $('.outer-word-display').length + 1;
-                    console.log(count);
 
-                    $('.outer-def-container').html(data);
+                    console.log(data);
+
+                    // $('.outer-def-container').html(data.imagePosts);
+
+                    $('.def-content').html(data.imagePosts);
+                    $('.endless-pagination').data('next-page',data.next_page);
 
                     displayCommentCountSidebar();
 
                     // deletePost();
 
-                    likePost()
+                    // likePost();
 
-                    resetImage()
+                    resetImage();
 
-                    resetUpLink()
+                    resetUpLink();
 
-                    resetBtn()
+                    resetBtn();
 
-                }else{
+                    $('.fade').modal('hide');
+
+
+
+                } else {
                     window.location.href = "{{url('/postImage/show')}}"
                 }
-
-                $('.fade').modal('hide')
             },
+
             contentType: false,
             cache: false,
             processData: false,
             async: false
         });
-
     });
+
 
     {{--function deletePost(){--}}
 
-        {{--$('.fa-trash-alt').click(function () {--}}
-            {{--var getId = $(this).parent().parent().find('.word-link').attr('href').substr(19);--}}
+    {{--$('.fa-trash-alt').click(function () {--}}
+    {{--var getId = $(this).parent().parent().find('.word-link').attr('href').substr(19);--}}
 
-            {{--var outerDel = $(this).parent().parent();--}}
+    {{--var outerDel = $(this).parent().parent();--}}
 
-            {{--var delId = {getId: getId};--}}
+    {{--var delId = {getId: getId};--}}
 
-            {{--$.ajax({--}}
-                {{--type: "POST",--}}
-                {{--url: "{{url('/postImage/delete')}}",--}}
-                {{--data: delId,--}}
-                {{--dataTy: 'json',--}}
-                {{--success: function (data) {--}}
-                    {{--outerDel.remove();--}}
+    {{--$.ajax({--}}
+    {{--type: "POST",--}}
+    {{--url: "{{url('/postImage/delete')}}",--}}
+    {{--data: delId,--}}
+    {{--dataTy: 'json',--}}
+    {{--success: function (data) {--}}
+    {{--outerDel.remove();--}}
 
-                    {{--$('.prompt-msg').empty();--}}
+    {{--$('.prompt-msg').empty();--}}
 
-                    {{--$('.prompt-msg').append($('<span>Removed</span>')).show().delay(3000).fadeOut();--}}
+    {{--$('.prompt-msg').append($('<span>Removed</span>')).show().delay(3000).fadeOut();--}}
 
-                {{--},--}}
-            {{--});--}}
+    {{--},--}}
+    {{--});--}}
 
-        {{--});--}}
+    {{--});--}}
     {{--}--}}
 
 
@@ -235,7 +242,7 @@
         resetBtn()
     });
 
-    function resetImage(){
+    function resetImage() {
         $('.update_image-sidebar').val('');
         $('.review-image-sidebar').attr('src', null);
         $('.URLinputBox-sidebar').val(null);
@@ -259,7 +266,7 @@
 
         $('.word-link').each(function () {
 
-            var post ={
+            var post = {
                 id: $(this).attr('href').substr(19),
 
                 commentCount: function () {
@@ -269,19 +276,19 @@
 
             };
 
-            injectCommentCount($(this),post.commentCount())
+            injectCommentCount($(this), post.commentCount())
         })
     }
 
-    function theCount(id){
+    function theCount(id) {
         var theData;
 
         $.ajax({
             type: 'POST',
             url: "{{url('/postImage/commentCount')}}",
-            dataTy:'json',
-            data: {id:id},
-            async:false,
+            dataTy: 'json',
+            data: {id: id},
+            async: false,
             success: function (data) {
                 theData = data
             }
@@ -290,16 +297,16 @@
         return theData
     }
 
-    function injectCommentCount(theLink,theCount){
+    function injectCommentCount(theLink, theCount) {
 
         var comment = theLink.parent().find('.comment-tag');
 
-        comment.text(theCount +' comments')
+        comment.text(theCount + ' comments')
     }
 
-//    like function
+    //    like function
 
-    function likePost(){
+    function likePost() {
         $('.like-btn').on('click', function () {
 
             var getDiv = $(this).parent().parent().parent().parent();

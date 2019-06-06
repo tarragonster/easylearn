@@ -25,7 +25,8 @@
 
                         <i class="fas fa-edit videoEdit" data-toggle="modal"
                            data-target="#editVid" id="{{$videoPost->id}}"></i>
-                        <i class="fas fa-trash-alt" data-toggle="modal" data-target="#confirmModal{{$n}}"></i>
+                        <i class="fas fa-trash-alt videoDel" data-toggle="modal" data-target="#confirmModal"
+                           id="delThis{{$videoPost->id}}"></i>
                     </div>
                 @else
                     <div class="word-icon">
@@ -49,9 +50,13 @@
                         <div class="post-div-btn">
                             <div class="like-name-comment">
                                 <div class="like-comment">
-                                    <div class="like-section">{{$videoPost->sumLike}} <i
-                                            class="fas fa-heart"></i></div>
-                                    <a class="comment-tag" href="/postVideo/comment/{{$videoPost->id}}">{{$videoPost->sumComment}} comments</a>
+                                    <div class="like-section">
+                                        <span class="sumLike">{{$videoPost->sumLike}}</span><i>&nbsp</i>
+                                        <i class="fas fa-heart"></i>
+                                    </div>
+                                    <a class="comment-tag"
+                                       href="/postVideo/comment/{{$videoPost->id}}">{{$videoPost->sumComment}}
+                                        comments</a>
                                 </div>
                                 <div class="user-info">
                                     <div class="post-name">{{$videoPost->user[0]->name}}</div>
@@ -81,10 +86,7 @@
                         </div>
                     </div>
                 </div>
-                @include('postVideos.modal-delete-vidPost')
             </div>
         @endif
     @endforeach
-    @include('postVideos.displayVid')
-    @include('postVideos.editing')
 @endif

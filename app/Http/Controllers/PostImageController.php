@@ -49,16 +49,20 @@ class PostImageController extends Controller
 
         if($request->ajax()){
 
-            $imagePost = new imagePost;
-            $imagePost->title =$request->input('title');
-            $imagePost->description =$request->input('description');
-            $imagePost->update_image=$nameToDisplay;
-            $imagePost->user_id = Auth::user()->id;
+            if($request->input('title') !== null){
+
+                $imagePost = new imagePost;
+                $imagePost->title =$request->input('title');
+                $imagePost->description =$request->input('description');
+                $imagePost->update_image=$nameToDisplay;
+                $imagePost->user_id = Auth::user()->id;
 
 
-            $imagePost->save();
+                $imagePost->save();
+            }
 
-            $imagePosts = DB::table('image_posts')->orderBy('updated_at','desc')->get();
+            $imagePosts = DB::table('image_posts')->orderBy('updated_at','desc')->paginate(2);
+
 
             foreach ($imagePosts as $key=>$value){
                 $imagePosts[$key]->sumComment = Comment::GetById($value->id,true);
@@ -70,7 +74,11 @@ class PostImageController extends Controller
                 }
             }
 
-            return view('postImages.posting-part')->with('imagePosts',$imagePosts)->with('n',$n);
+            return [
+                'imagePosts' => view('postImages.ajax-posting-part')->with('imagePosts',$imagePosts)->with('n',$n)->render(),
+                'next_page' => $imagePosts->nextPageUrl()
+            ];
+
         }
     }
 
@@ -84,7 +92,7 @@ class PostImageController extends Controller
         $q ='';
         $n = 0;
 
-        $imagePosts = DB::table('image_posts')->orderBy('created_at','desc')->paginate(2);
+        $imagePosts = DB::table('image_posts')->orderBy('updated_at','desc')->paginate(2);
 
         foreach ($imagePosts as $key=>$value){
 

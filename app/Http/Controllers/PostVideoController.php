@@ -34,16 +34,19 @@ class PostVideoController extends Controller
 
         if($request->ajax()){
 
-            $videoPost = new Video;
-            $videoPost->title =$request->input('title');
-            $videoPost->description =$request->input('desc');
-            $videoPost->video=$nameToDisplay;
-            $videoPost->user_id = Auth::user()->id;
+            if($request->input('title') !== null){
 
+                $videoPost = new Video;
+                $videoPost->title =$request->input('title');
+                $videoPost->description =$request->input('desc');
+                $videoPost->video=$nameToDisplay;
+                $videoPost->user_id = Auth::user()->id;
 
-            $videoPost->save();
+                $videoPost->save();
 
-            $videoPosts = DB::table('videos')->orderBy('updated_at','desc')->get();
+            }
+
+            $videoPosts = DB::table('videos')->orderBy('updated_at','desc')->paginate(2);
 
             foreach ($videoPosts as $key=>$value){
 
@@ -56,7 +59,10 @@ class PostVideoController extends Controller
                 }
             }
 
-            return view('postVideos.posting-part')->with('videoPosts',$videoPosts)->with('n',$n);
+            return [
+                'videoPosts' => view('postVideos.ajax-posting-part')->with('videoPosts',$videoPosts)->with('n',$n)->render(),
+                'next_page' => $videoPosts->nextPageUrl()
+            ];
         }
     }
 

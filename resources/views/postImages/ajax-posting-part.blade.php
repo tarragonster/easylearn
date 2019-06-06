@@ -25,13 +25,14 @@
 
                         <i class="fas fa-edit imageEdit" data-toggle="modal"
                            data-target="#editing" id="{{$imagePost->id}}"></i>
-                        <i class="fas fa-trash-alt"  data-toggle="modal" data-target="#confirmModal{{$n}}"></i>
+                        <i class="fas fa-trash-alt imageDel" data-toggle="modal" data-target="#confirmModal"
+                           id="delThis{{$imagePost->id}}"></i>
                     </div>
                 @else
                     <div class="word-icon">
 
                         <i class="fas" data-toggle="modal"
-                           data-target="#editModal{{$n}}"></i>
+                           data-target="#editModal"></i>
                         <i class="fas"></i>
                     </div>
                 @endif
@@ -45,9 +46,12 @@
                         <div class="post-div-btn">
                             <div class="like-name-comment">
                                 <div class="like-comment">
-                                    <div class="like-section">{{$imagePost->sumLike}} <i
-                                            class="fas fa-heart"></i></div>
-                                    <a class="comment-tag" href="/postImage/comment/{{$imagePost->id}}">{{$imagePost->sumComment}} comments</a>
+                                    <div class="like-section">
+                                        <span class="sumLike">{{$imagePost->sumLike}} </span><i>&nbsp;</i>
+                                        <i class="fas fa-heart"></i></div>
+                                    <a class="comment-tag"
+                                       href="/postImage/comment/{{$imagePost->id}}">{{$imagePost->sumComment}}
+                                        comments</a>
                                 </div>
                                 <div class="user-info">
                                     <div class="post-name">{{$imagePost->user[0]->name}}</div>
@@ -72,14 +76,12 @@
                                 <i class="fas fa-comment"></i> comment
                             </button>
 
-                            <span class="timeCount">{{Carbon\Carbon::parse($imagePost->created_at)->diffForHumans()}}</span>
+                            <span
+                                class="timeCount">{{Carbon\Carbon::parse($imagePost->created_at)->diffForHumans()}}</span>
                         </div>
                     </div>
                 </div>
-
-                @include('postImages.modal-delete-imagePost')
             </div>
         @endif
     @endforeach
-    @include('postImages.editing')
 @endif

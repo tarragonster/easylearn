@@ -1,4 +1,10 @@
-<div class="paginating-container">
+<div class="outer-spinner">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<div class="paginating-container" style="display: none">
     <div class="paginating-inner">
         @foreach($posts as $post)
             <div class="container-ele">
@@ -38,10 +44,12 @@
                                                 <i class="fas fa-heart"></i>
                                             </div>
                                         </div>
-                                        <a class="comment-tag" href="/postImage/comment/{{$post->id}}">{{$post->sumComment}} comments</a>
+                                        <a class="comment-tag"
+                                           href="/postImage/comment/{{$post->id}}">{{$post->sumComment}} comments</a>
                                     </div>
 
-                                    <span class="timeCount">{{Carbon\Carbon::parse($post->created_at)->diffForHumans()}}</span>
+                                    <span
+                                        class="timeCount">{{Carbon\Carbon::parse($post->created_at)->diffForHumans()}}</span>
                                 </div>
 
                             </div>
@@ -54,3 +62,24 @@
 
     {!!$posts->links()!!}
 </div>
+
+<script>
+
+    $('.page-link').on('click',function () {
+
+        var thisLink = $(this);
+
+        thisLink.css('background-color','#49463D');
+        thisLink.css('color','#D1CBB3');
+
+        var otherLink = $('.page-link').not(this);
+
+        otherLink.css('background-color','#C7C2AA');
+        otherLink.css('color','#49463D');
+
+        $('.paginating-container').css('display','none');
+        $('.outer-spinner').css('display','flex');
+
+    })
+
+</script>

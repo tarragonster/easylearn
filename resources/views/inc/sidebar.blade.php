@@ -2,9 +2,38 @@
 
 <div id="mySidenav" class="sidenav shadow">
 
+    <div class="dict-search-sidebar" style="display: none">
+        <p id="title-lists" class="list-dict">DICTIONARY SEARCH</p>
+
+        <div class="search-inner search-inner-sidebar">
+
+            {!! Form::open(['action'=>'DictionariesController@search','method'=>'GET','class'=>'search-form']) !!}
+
+            <div class="input-group">
+
+                {{Form::text('q',$q,['class'=>'form','placeholder'=>'Search'])}}
+
+                {{Form::select('language', ['E' => 'English', 'K' => 'Korean'],$selectOption,['class'=>'btn-select dropdown-toggle'])}}
+
+                {{Form::button('<i class="fas fa-search"></i>',['class'=>'btn-search d-none','type'=>'submit'])}}
+
+            </div>
+            {!! Form::close() !!}
+        </div>
+    </div>
+
+    <div class="notAuthBtns">
+        <button class="exploreBtn shadow-sm rounded" type="button">
+            <a href="{{url('/public/show')}}" class="shadow-sm rounded">Explore</a>
+        </button>
+    </div>
+
     @if(Auth::check())
+
         <div id="div-btn">
-            <button id="createButton" type="button" data-toggle="dropdown" aria-expanded="true" class="shadow-sm rounded">Create</button>
+            <button id="createButton" type="button" data-toggle="dropdown" aria-expanded="true"
+                    class="shadow-sm rounded">Create
+            </button>
             <ul class="dropdown-menu outer-component sidebar-bits">
                 <li class="sidebar-component" data-toggle="modal" data-target="#sidebar-modal">Post with images</li>
                 <li class="sidebar-component" data-toggle="modal" data-target="#video-modal">Post with videos</li>
@@ -18,58 +47,15 @@
             @if(count($sidebars)>0)
                 @foreach($sidebars as $sidebar)
                     <div id="div-link">
-                        <h3 class="contain-link"><a class="side-link" href="/lists/{{$sidebar->list}}/practice/{{Auth::user()->id}}"><i
+                        <h3 class="contain-link"><a class="side-link"
+                                                    href="/lists/{{$sidebar->list}}/practice/{{Auth::user()->id}}"><i
                                     class="fas fa-folder"></i> {{$sidebar->list}}</a></h3>
                     </div>
                 @endforeach
-
-                    <div class="dict-search-sidebar" style="display: none">
-                        <p id="title-lists" class="list-dict">DICTIONARY SEARCH</p>
-
-                        <div class="search-inner search-inner-sidebar">
-
-                            {!! Form::open(['action'=>'DictionariesController@search','method'=>'GET','class'=>'search-form']) !!}
-
-                            <div class="input-group">
-
-                                {{Form::text('q',$q,['class'=>'form','placeholder'=>'Search'])}}
-
-                                {{Form::select('language', ['E' => 'English', 'K' => 'Korean'],$selectOption,['class'=>'btn-select dropdown-toggle'])}}
-
-                                {{Form::button('<i class="fas fa-search"></i>',['class'=>'btn-search d-none','type'=>'submit'])}}
-
-                            </div>
-                            {!! Form::close() !!}
-                        </div>
-                    </div>
             @else
                 <p>No lists found</p>
             @endif
-            @else
-                <div class="list-group-item login-outer-btn">
-                    <a class="nav-link login-btn" href="{{ route('login') }}">{{ __('LOGIN') }}</a>
-                </div>
-
-                <div class="dict-search-sidebar" style="display: none">
-                    <p id="title-lists" class="list-dict">DICTIONARY SEARCH</p>
-
-                    <div class="search-inner search-inner-sidebar">
-
-                        {!! Form::open(['action'=>'DictionariesController@search','method'=>'GET','class'=>'search-form']) !!}
-
-                        <div class="input-group">
-
-                            {{Form::text('q',$q,['class'=>'form','placeholder'=>'Search'])}}
-
-                            {{Form::select('language', ['E' => 'English', 'K' => 'Korean'],$selectOption,['class'=>'btn-select dropdown-toggle'])}}
-
-                            {{Form::button('<i class="fas fa-search"></i>',['class'=>'btn-search d-none','type'=>'submit'])}}
-
-                        </div>
-                        {!! Form::close() !!}
-                    </div>
-                </div>
-            @endif
+    @endif
         </div>
 </div>
 
@@ -98,7 +84,6 @@
 
         }
     })
-
 
 
 </script>

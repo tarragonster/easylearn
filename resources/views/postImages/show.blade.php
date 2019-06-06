@@ -46,13 +46,14 @@
 
             // displayCommentCount()
 
+            // addLike();
+
             $(window).scroll(fetchPosts);
 
-            addLike()
-
-            checkCurrentLike()
+            checkCurrentLike();
 
         });
+
 
         function checkCurrentLike(){
 
@@ -125,9 +126,9 @@
 
         //    like button onclick per posts
 
-        function addLike(){
+        // function addLike(){
 
-            $('.like-btn').on('click', function () {
+            $(document).on('click','.like-btn' ,function () {
 
                 var getDiv = $(this).parent().parent().parent().parent();
 
@@ -137,9 +138,9 @@
 
                 var likeButton = $(this);
 
-                var likeId = {getId: getId, currentUserId: currentUserId};
+                var likeSection = getDiv.find('.sumLike');
 
-                console.log(likeButton.css('color'));
+                var likeId = {getId: getId, currentUserId: currentUserId};
 
                 if (likeButton.css('color') !== 'rgb(187, 154, 129)') {
 
@@ -150,20 +151,23 @@
                         dataTy: 'json',
                         success: function (data) {
 
-                            console.log(data);
-
-                            likeButton.css('color', '#BB9A81');
-                            likeButton.css('background-color', '#49463D');
-
-                            likeButton.hover(function () {
-                                likeButton.css('color', '#BB9A81');
-                                likeButton.css('background-color', '#49463D')
-                            }, function () {
-                                likeButton.css('color', '#BB9A81');
-                                likeButton.css('background-color', '#49463D')
-                            })
+                            console.log(data)
                         },
                     });
+
+                    likeButton.css('color', '#BB9A81');
+                    likeButton.css('background-color', '#49463D');
+
+                    likeButton.hover(function () {
+                        likeButton.css('color', '#BB9A81');
+                        likeButton.css('background-color', '#49463D')
+                    }, function () {
+                        likeButton.css('color', '#BB9A81');
+                        likeButton.css('background-color', '#49463D')
+                    })
+
+                    likeSection.text(parseInt(likeSection.text()) + 1)
+
                 } else {
 
                     $.ajax({
@@ -173,39 +177,38 @@
                         dataTy: 'json',
                         success: function (data) {
 
-                            console.log(data);
-
-                            likeButton.css('color', '#49463D');
-                            likeButton.css('background-color', '#A39F8B');
-
-                            likeButton.hover(function () {
-                                likeButton.css('color', '#D1CBB3');
-                                likeButton.css('background-color', '#49463D');
-                            }, function () {
-                                likeButton.css('color', '#49463D');
-                                likeButton.css('background-color', '#A39F8B');
-                            })
-
                         },
                     });
+
+                    likeButton.css('color', '#49463D');
+                    likeButton.css('background-color', '#A39F8B');
+
+                    likeButton.hover(function () {
+                        likeButton.css('color', '#D1CBB3');
+                        likeButton.css('background-color', '#49463D');
+                    }, function () {
+                        likeButton.css('color', '#49463D');
+                        likeButton.css('background-color', '#A39F8B');
+                    });
+
+                    likeSection.text(parseInt(likeSection.text()) - 1)
                 }
 
-                var likeSection = getDiv.find('.like-section');
+                {{--$.ajax({--}}
+                    {{--type: "POST",--}}
+                    {{--url: "{{url('/postImage/getLike')}}",--}}
+                    {{--data: likeId,--}}
+                    {{--dataTy: 'json',--}}
+                    {{--success: function (data) {--}}
 
-                $.ajax({
-                    type: "POST",
-                    url: "{{url('/postImage/getLike')}}",
-                    data: likeId,
-                    dataTy: 'json',
-                    success: function (data) {
+                        {{--likeSection.text(data).append('<i>&nbsp;</i>').append($('<i class="fas fa-heart"></i>'))--}}
 
-                        likeSection.text(data).append('<i>&nbsp;</i>').append($('<i class="fas fa-heart"></i>'))
-
-                    },
-                });
+                    {{--},--}}
+                {{--});--}}
 
             });
-        }
+        // }
+        var isScroll = true;
 
         function fetchPosts(){
 
@@ -219,14 +222,22 @@
                     var scrollPositionForLoad = $(window).height() +$(window).scrollTop()+100;
 
                     if(scrollPositionForLoad >= $(document).height()){
-                        $.get(page,function(data){
 
-                            $('.def-content').append(data.imagePosts);
-                            $('.endless-pagination').data('next-page',data.next_page);
+                        $('.loader').css('display','block');
 
-                            checkCurrentLike()
-                            addLike()
-                        });
+                        if(isScroll == true){
+                            isScroll = false;
+                            $.get(page,function(data){
+
+                                $('.def-content').append(data.imagePosts);
+                                $('.endless-pagination').data('next-page',data.next_page);
+                                isScroll=true;
+                                checkCurrentLike();
+
+
+                                $('.loader').css('display','none');
+                            });
+                        }
                     }
                 },350))
             }

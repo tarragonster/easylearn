@@ -546,6 +546,36 @@
     color: #D1CBB3;
 }
 
+.outer-spinner{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.share-spinner{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.share-spinner div{
+
+    height: 1rem !important;
+    width: 1rem !important;
+}
+
+.outer-spinner div{
+    height: 6rem;
+    width: 6rem;
+
+    color: #49463D !important;
+}
+
+.sr-only{
+    font-weight: 900 !important;
+
+}
 
 @media (max-width:1215px){
     #main{

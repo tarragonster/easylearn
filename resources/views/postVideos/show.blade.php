@@ -50,11 +50,11 @@
 
             checkCurrentLike();
 
-            addLike()
+            // addLike()
 
-            showVidModal()
+            // showVidModal()
 
-            closeVidModal()
+            // closeVidModal()
 
             // displayCommentNum()
 
@@ -163,8 +163,9 @@
 
         //    like button onclick per posts
 
-        function addLike(){
-            $('.like-btn').on('click', function () {
+        // function addLike(){
+
+            $(document).on('click','.like-btn', function () {
 
                 var getDiv = $(this).parent().parent().parent().parent();
 
@@ -173,6 +174,8 @@
                 var currentUserId = getDiv.find('.currentId').text();
 
                 var likeButton = $(this);
+
+                var likeSection = getDiv.find('.sumLike');
 
                 var likeId = {getId: getId, currentUserId: currentUserId};
 
@@ -187,20 +190,23 @@
                         dataTy: 'json',
                         success: function (data) {
 
-                            console.log(data);
 
-                            likeButton.css('color', '#BB9A81');
-                            likeButton.css('background-color', '#49463D');
-
-                            likeButton.hover(function () {
-                                likeButton.css('color', '#BB9A81');
-                                likeButton.css('background-color', '#49463D')
-                            }, function () {
-                                likeButton.css('color', '#BB9A81');
-                                likeButton.css('background-color', '#49463D')
-                            })
                         },
                     });
+
+                    likeButton.css('color', '#BB9A81');
+                    likeButton.css('background-color', '#49463D');
+
+                    likeButton.hover(function () {
+                        likeButton.css('color', '#BB9A81');
+                        likeButton.css('background-color', '#49463D')
+                    }, function () {
+                        likeButton.css('color', '#BB9A81');
+                        likeButton.css('background-color', '#49463D')
+                    })
+
+                    likeSection.text(parseInt(likeSection.text()) + 1)
+
                 } else {
 
                     $.ajax({
@@ -212,41 +218,42 @@
 
                             console.log(data);
 
-                            likeButton.css('color', '#49463D');
-                            likeButton.css('background-color', '#A39F8B');
-
-                            likeButton.hover(function () {
-                                likeButton.css('color', '#D1CBB3');
-                                likeButton.css('background-color', '#49463D');
-                            }, function () {
-                                likeButton.css('color', '#49463D');
-                                likeButton.css('background-color', '#A39F8B');
-                            })
-
                         },
                     });
+
+                    likeButton.css('color', '#49463D');
+                    likeButton.css('background-color', '#A39F8B');
+
+                    likeButton.hover(function () {
+                        likeButton.css('color', '#D1CBB3');
+                        likeButton.css('background-color', '#49463D');
+                    }, function () {
+                        likeButton.css('color', '#49463D');
+                        likeButton.css('background-color', '#A39F8B');
+                    });
+
+                    likeSection.text(parseInt(likeSection.text()) - 1)
+
                 }
 
-                var likeSection = getDiv.find('.like-section');
+                {{--$.ajax({--}}
+                    {{--type: "POST",--}}
+                    {{--url: "{{url('/postVideo/getLike')}}",--}}
+                    {{--data: likeId,--}}
+                    {{--dataTy: 'json',--}}
+                    {{--success: function (data) {--}}
 
-                $.ajax({
-                    type: "POST",
-                    url: "{{url('/postVideo/getLike')}}",
-                    data: likeId,
-                    dataTy: 'json',
-                    success: function (data) {
+                        {{--likeSection.text(data).append('<i>&nbsp;</i>').append($('<i class="fas fa-heart"></i>'))--}}
 
-                        likeSection.text(data).append('<i>&nbsp;</i>').append($('<i class="fas fa-heart"></i>'))
+                    {{--},--}}
+                {{--});--}}
 
-                    },
-                });
+            });
+        // }
 
-            })
-        }
+        // function showVidModal(){
 
-        function showVidModal(){
-
-            $('.showVidModal').on('click', function () {
+            $(document).on('click','.showVidModal', function () {
 
                 var theId = $(this).attr('id').substr(5);
 
@@ -270,24 +277,25 @@
 
             });
 
-        }
+        // }
 
 
     //    stop video after closing modal
 
-        function closeVidModal(){
+        // function closeVidModal(){
 
-            $('.vidModal').on('hidden.bs.modal',function () {
+            $(document).on('hidden.bs.modal','.vidModal',function () {
 
                 var modalIframe = $(this).find('.anchor-iframe').html();
 
                 $(this).find('.embed-responsive').empty();
 
                 $(this).find('.embed-responsive').append($('<div class="anchor-iframe"></div>').append($('<div class="inner-anchor-iframe"></div>').append($(modalIframe))))
-            })
+            });
 
-        }
+        // }
 
+        var isScroll = true;
         function fetchPosts(){
 
             var page = $('.endless-pagination').data('next-page');
@@ -300,21 +308,32 @@
                     var scrollPositionForLoad = $(window).height() +$(window).scrollTop()+100;
 
                     if(scrollPositionForLoad >= $(document).height()){
-                        $.get(page,function(data){
 
-                            $('.def-content').append(data.videoPosts);
-                            $('.endless-pagination').data('next-page',data.next_page);
+                        $('.loader').css('display','block');
 
-                            convertHTML();
+                        if(isScroll == true){
+                            isScroll = false;
+                            $.get(page,function(data){
 
-                            checkCurrentLike();
+                                $('.def-content').append(data.videoPosts);
+                                $('.endless-pagination').data('next-page',data.next_page);
 
-                            addLike();
+                                isScroll=true;
 
-                            showVidModal();
+                                $('.loader').css('display','none');
 
-                            closeVidModal()
-                        });
+                                convertHTML();
+
+                                checkCurrentLike();
+
+                                // addLike();
+
+                                // showVidModal();
+
+                                // closeVidModal()
+                            });
+
+                        }
                     }
                 },350))
             }

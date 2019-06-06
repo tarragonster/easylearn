@@ -80,7 +80,7 @@
 
     // open modal
 
-    $('.videoEdit').on('click', function () {
+    $(document).on('click','.videoEdit', function () {
 
         var theId = $(this).attr('id');
 

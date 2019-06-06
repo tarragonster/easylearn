@@ -95,7 +95,7 @@
 
     //    send request to edit the post
 
-    $('.imageEdit').on('click', function () {
+    $(document).on('click','.imageEdit', function () {
 
         var theId = $(this).attr('id');
 

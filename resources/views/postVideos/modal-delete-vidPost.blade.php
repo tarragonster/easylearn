@@ -1,5 +1,5 @@
 {!! Form::open(['action'=>'PostVideoController@delete', 'method'=>'POST', 'class'=>'confirm-form']) !!}
-<div class="modal fade" id="confirmModal{{$n}}" tabindex="-1" role="dialog"
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -14,6 +14,8 @@
                 <div class="def-desc">
                     <h6 class="inner-def-desc">Are you sure you want to delete this post?<br><br>
                         Note: Deleting list is permanent action and cannot be undone</h6>
+
+                    <input class="postDel-id d-none" name="postId" type="text" value="">
                 </div>
             </div>
             <div class="modal-footer">
@@ -32,14 +34,24 @@
         }
     });
 
+    $(document).on('click','.videoDel', function () {
+
+        var theId = $(this).attr('id').substr(7);
+
+        var anchor = $('.confirm-form').find('.postDel-id');
+
+        anchor.val(theId);
+
+    });
+
     //    load ajax for deleting list requests
 
     $('.confirm-form').on('submit', function (e) {
         e.preventDefault();
 
-        var getId = $(this).parent().find('.word-link').attr('href').substr(19);
+        var getId = $(this).find('.postDel-id').val();
 
-        var outerDel = $(this).parent();
+        var outerDel = $('#delThis'+getId).parent().parent();
 
         var delId = {getId: getId};
 
@@ -60,6 +72,7 @@
 
                 $('.prompt-msg').append($('<span>Removed Post</span>')).show().delay(3000).fadeOut();
 
+                fetchPosts()
             },
         });
     })

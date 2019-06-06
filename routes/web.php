@@ -67,7 +67,7 @@ Route::post('/search/list', 'DictionariesController@showList');
 Route::get('/search/dropdown','DictionariesController@ajaxList');
 Route::post('/search/destroy','DictionariesController@destroy');
 
-Route::post('/postImage/store','PostImageController@store');
+Route::any('/postImage/store','PostImageController@store');
 Route::get('/postImage/show','PostImageController@show');
 Route::post('/postImage/delete','PostImageController@delete');
 Route::post('/postImage/commentInput','PostImageController@inputComment');
@@ -85,7 +85,7 @@ Route::post('/postImage/restartModal','PostImageController@restartModal');
 Route::get('/pagination','PagesController@fetch_data');
 
 Route::get('/postVideo/show','PostVideoController@show');
-Route::post('/postVideo/store','PostVideoController@store');
+Route::any('/postVideo/store','PostVideoController@store');
 Route::post('/postVideo/delete','PostVideoController@delete');
 Route::post('/postVideo/commentCount','PostVideoController@countComment');
 

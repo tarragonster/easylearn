@@ -46,11 +46,16 @@
     </div>
 
     <div class="prompt-msg"></div>
+
+
 @endsection
 
 <script>
 
     window.onload = function(){
+
+        $('.paginating-container').css('display','block');
+        $('.outer-spinner').css('display','none');
 
         clickLink();
 
@@ -107,13 +112,16 @@
             url:"/pagination?page="+page,
             success:function(data){
 
-                $('.article-content').html(data)
+                $('.article-content').html(data);
 
-                checkCurrentLike()
+                checkCurrentLike();
 
-                addLike()
+                addLike();
 
-                displayCommentCount();
+                // displayCommentCount();
+
+                $('.paginating-container').css('display','block');
+                $('.outer-spinner').css('display','none');
             }
         })
     }
@@ -138,67 +146,84 @@
 
     function addLike(){
 
-        $('.like-btn').on('click', function () {
+    $('.like-btn').on('click', function () {
 
-            var likeButton = $(this);
+        var likeButton = $(this);
 
-            var getDiv = likeButton.parent().parent().parent().parent().parent().parent().parent().parent();
+        var getDiv = likeButton.parent().parent().parent().parent().parent().parent().parent().parent();
 
-            var getId = getDiv.find('.word-link').text();
+        var getId = getDiv.find('.word-link').text();
 
-            var currentUserId = getDiv.find('.currentId').text();
+        var currentUserId = getDiv.find('.currentId').text();
 
-            var likeId = {getId: getId, currentUserId: currentUserId};
+        var likeId = {getId: getId, currentUserId: currentUserId};
 
-            console.log(likeButton.css('color'));
+        console.log(likeButton.css('color'));
 
-            if (likeButton.css('color') !== 'rgb(187, 154, 129)') {
-
-                $.ajax({
-                    type: "POST",
-                    url: "{{url('/postImage/like')}}",
-                    data: likeId,
-                    dataTy: 'json',
-                    success: function (data) {
-
-                        console.log(data);
-
-                        likeButton.css('color', '#BB9A81');
-
-                    },
-                });
-            } else {
-
-                $.ajax({
-                    type: "POST",
-                    url: "{{url('/postImage/reverseLike')}}",
-                    data: likeId,
-                    dataTy: 'json',
-                    success: function (data) {
-
-                        console.log(data);
-
-                        likeButton.css('color', '#49463D');
-
-                    },
-                });
-            }
-
-            var likeSection = getDiv.find('.like-section');
+        if (likeButton.css('color') !== 'rgb(187, 154, 129)') {
 
             $.ajax({
                 type: "POST",
-                url: "{{url('/postImage/getLike')}}",
+                url: "{{url('/postImage/like')}}",
                 data: likeId,
                 dataTy: 'json',
                 success: function (data) {
 
-                    likeSection.text(data)
+                    {{--var likeSection = getDiv.find('.like-section');--}}
+
+                    {{--$.ajax({--}}
+                    {{--type: "POST",--}}
+                    {{--url: "{{url('/postImage/getLike')}}",--}}
+                    {{--data: likeId,--}}
+                    {{--dataTy: 'json',--}}
+                    {{--success: function (data) {--}}
+
+                    {{--likeSection.text(data)--}}
+
+                    {{--},--}}
+                    {{--});--}}
 
                 },
             });
 
-        })
+            likeButton.parent().find('.like-section').text(parseInt(likeButton.parent().find('.like-section').text()) + 1)
+
+            likeButton.css('color', '#BB9A81');
+
+        } else {
+
+            $.ajax({
+                type: "POST",
+                url: "{{url('/postImage/reverseLike')}}",
+                data: likeId,
+                dataTy: 'json',
+                success: function (data) {
+
+                    {{--console.log(data);--}}
+
+                    {{--var likeSection = getDiv.find('.like-section');--}}
+
+                    {{--$.ajax({--}}
+                    {{--type: "POST",--}}
+                    {{--url: "{{url('/postImage/getLike')}}",--}}
+                    {{--data: likeId,--}}
+                    {{--dataTy: 'json',--}}
+                    {{--success: function (data) {--}}
+
+                    {{--likeSection.text(data)--}}
+
+                    {{--},--}}
+                    {{--});--}}
+
+                },
+            });
+
+            likeButton.parent().find('.like-section').text(parseInt(likeButton.parent().find('.like-section').text()) - 1)
+
+            likeButton.css('color', '#49463D');
+        }
+
+    })
     }
 
     function displayCommentCount() {

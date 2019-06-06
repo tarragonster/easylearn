@@ -27,7 +27,12 @@
 
                         <div class="dropdown-menu elipsisBtn" aria-labelledby="dropdownMenuButton">
 
-                            <a class="dropdown-item shareBtn" href="{{ url('/public/show') }}">Share</a>
+                            <div class="outer-spinner share-spinner">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                            <a class="dropdown-item shareBtn" href="{{ url('/public/show') }}" style="display: none">Share</a>
                             <span class="delDropdown dropdown-item" data-toggle="modal"
                                   data-target="#confirmModal">Delete</span>
                         </div>
@@ -40,28 +45,37 @@
             <p class="search-title savedWord">Saved words</p>
 
             <div class="search-cover video-content inner-small-content">
-                @if(count($contentLists)>0)
-                    @foreach($contentLists as $contentList)
-                        @if($contentList->word=='')
-                            @continue
-                        @else
-                            <div class="d-none">{{$n++}}</div>
-                            <div class="outer-word-display">
-                                <a class="word-link"
-                                   href="/lists/practice/{{$contentList->id}}">{{$contentList->word}}</a>
-                                <div class="word-icon">
-                                    @if(Auth::check() && Auth::user()->id == $contentList->user_id)
-                                        <i class="fas fa-edit practiceEdit" data-toggle="modal"
-                                           data-target="#editModalPractice" id="{{$contentList->id}}"></i>
-                                        <i class="fas fa-trash-alt"></i>
-                                    @endif
+
+                <div class="outer-spinner">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+
+                <div class="word-list" style="display: none">
+                    @if(count($contentLists)>0)
+                        @foreach($contentLists as $contentList)
+                            @if($contentList->word=='')
+                                @continue
+                            @else
+                                <div class="d-none">{{$n++}}</div>
+                                <div class="outer-word-display">
+                                    <a class="word-link"
+                                       href="/lists/practice/{{$contentList->id}}">{{$contentList->word}}</a>
+                                    <div class="word-icon">
+                                        @if(Auth::check() && Auth::user()->id == $contentList->user_id)
+                                            <i class="fas fa-edit practiceEdit" data-toggle="modal"
+                                               data-target="#editModalPractice" id="{{$contentList->id}}"></i>
+                                            <i class="fas fa-trash-alt"></i>
+                                        @endif
+                                    </div>
+                                    <div class="anchor-def"></div>
                                 </div>
-                                <div class="anchor-def"></div>
-                            </div>
-                        @endif
-                    @endforeach
-                    @include('practices.editModal')
-                @endif
+                            @endif
+                        @endforeach
+                    @endif
+                </div>
+                @include('practices.editModal')
             </div>
         </div>
     </div>
@@ -103,6 +117,7 @@
     <div class="prompt-msg"></div>
 
     @include('practices.modal-delete-list')
+
     <script>
         $.ajaxSetup({
             headers: {
@@ -110,18 +125,30 @@
             }
         });
 
-        var count = 0;
-        var a = 0;
-        var userId = $('.userId').text();
-        var creatorId = $('.creatorId').text();
+        $( document ).ajaxStop(function() {
+            $('.word-list').css('display','block');
+            $('.outer-spinner').css('display','none');
+            $('.shareBtn').css('display','block')
+        });
 
-        $(document).ready(function () {
+        $('.dropdown-menu').click(function(e) {
+            e.stopPropagation();
+        });
+
+        window.onload = function(){
+
             displayCheck();
 
             if (userId !== '' && creatorId !== '' && userId === creatorId) {
                 wordColor()
             }
-        });
+
+        };
+
+        var count = 0;
+        var a = 0;
+        var userId = $('.userId').text();
+        var creatorId = $('.creatorId').text();
 
 
         function displayCheck() {

@@ -60,9 +60,10 @@
                         @if(Auth::check() && Auth::user()->id == $videoPost->user_id)
                             <div class="word-icon">
 
-                                <i class="fas fa-edit" data-toggle="modal"
-                                   data-target="#editVid{{$n}}"></i>
-                                <i class="fas fa-trash-alt"></i>
+                                <i class="fas fa-edit videoEdit" data-toggle="modal"
+                                   data-target="#editVid" id="{{$videoPost->id}}"></i>
+                                <i class="fas fa-trash-alt videoDel" data-toggle="modal"
+                                   data-target="#confirmModal" id="delThis{{$videoPost->id}}"></i>
                             </div>
                         @else
                             <div class="word-icon">
@@ -77,8 +78,8 @@
                                 <div>
                                     <div class="disVid d-none">{{$videoPost->video}}</div>
                                 </div>
-                                <button type="button" class="btn btn-info shade" data-toggle="modal"
-                                        data-target="#modalYT{{$n}}"></button>
+                                <button type="button" class="btn btn-info shade showVidModal" data-toggle="modal"
+                                        data-target="#modalYT" id="popup{{$videoPost->id}}"></button>
                             </div>
                             <div class="post-content">
                                 <div class="post-text">{{$videoPost->description}}</div>
@@ -86,8 +87,10 @@
                                 <div class="post-div-btn">
                                     <div class="like-name-comment">
                                         <div class="like-comment">
-                                            <div class="like-section">{{$videoPost->sumLike}} <i
-                                                    class="fas fa-heart"></i></div>
+                                            <div class="like-section">
+                                                <span class="sumLike">{{$videoPost->sumLike}}</span><i>&nbsp</i>
+                                                <i class="fas fa-heart"></i>
+                                            </div>
                                             <a class="comment-tag" href="/postVideo/comment/{{$videoPost->id}}"
                                                style="pointer-events: none;">{{$videoPost->sumComment}} comments</a>
                                         </div>
@@ -152,11 +155,11 @@
                                 </div>
                             </div>
                         </div>
-                        @include('postVideos.displayVid')
-                        @include('postVideos.editing')
                     </div>
-
                 </div>
+                @include('postVideos.modal-delete-vidPost')
+                @include('postVideos.displayVid')
+                @include('postVideos.editing')
             </div>
         </div>
     </div>
@@ -248,7 +251,7 @@
 
             var comment = theLink.parent().find('.comment-tag');
 
-            comment.text(theCount + ' comments')
+            comment.text(theCount +' comments')
         }
 
         //Using postId to get row in comment table
@@ -302,29 +305,29 @@
 
         }
 
-        $('.fa-trash-alt').click(function () {
-            var getId = $(this).parent().parent().find('.word-link').attr('href').substr(19);
+        {{--$('.fa-trash-alt').click(function () {--}}
+            {{--var getId = $(this).parent().parent().find('.word-link').attr('href').substr(19);--}}
 
-            var outerDel = $(this).parent().parent();
+            {{--var outerDel = $(this).parent().parent();--}}
 
-            var delId = {getId: getId};
+            {{--var delId = {getId: getId};--}}
 
-            $.ajax({
-                type: "POST",
-                url: "{{url('/postVideo/delete')}}",
-                data: delId,
-                dataTy: 'json',
-                success: function (data) {
-                    outerDel.remove();
+            {{--$.ajax({--}}
+                {{--type: "POST",--}}
+                {{--url: "{{url('/postVideo/delete')}}",--}}
+                {{--data: delId,--}}
+                {{--dataTy: 'json',--}}
+                {{--success: function (data) {--}}
+                    {{--outerDel.remove();--}}
 
-                    $('.prompt-msg').empty();
+                    {{--$('.prompt-msg').empty();--}}
 
-                    $('.prompt-msg').append($('<span>Removed</span>')).show().delay(3000).fadeOut();
+                    {{--$('.prompt-msg').append($('<span>Removed</span>')).show().delay(3000).fadeOut();--}}
 
-                },
-            });
+                {{--},--}}
+            {{--});--}}
 
-        });
+        {{--});--}}
 
         $('.like-btn').on('click', function () {
 
@@ -335,6 +338,8 @@
             var currentUserId = getDiv.find('.currentId').text();
 
             var likeButton = $(this);
+
+            var likeSection = getDiv.find('.sumLike');
 
             var likeId = {getId: getId, currentUserId: currentUserId};
 
@@ -349,20 +354,23 @@
                     dataTy: 'json',
                     success: function (data) {
 
-                        console.log(data);
 
-                        likeButton.css('color', '#BB9A81');
-                        likeButton.css('background-color', '#49463D');
-
-                        likeButton.hover(function () {
-                            likeButton.css('color', '#BB9A81');
-                            likeButton.css('background-color', '#49463D')
-                        }, function () {
-                            likeButton.css('color', '#BB9A81');
-                            likeButton.css('background-color', '#49463D')
-                        })
                     },
                 });
+
+                likeButton.css('color', '#BB9A81');
+                likeButton.css('background-color', '#49463D');
+
+                likeButton.hover(function () {
+                    likeButton.css('color', '#BB9A81');
+                    likeButton.css('background-color', '#49463D')
+                }, function () {
+                    likeButton.css('color', '#BB9A81');
+                    likeButton.css('background-color', '#49463D')
+                })
+
+                likeSection.text(parseInt(likeSection.text()) + 1)
+
             } else {
 
                 $.ajax({
@@ -372,36 +380,34 @@
                     dataTy: 'json',
                     success: function (data) {
 
-                        console.log(data);
-
-                        likeButton.css('color', '#49463D');
-                        likeButton.css('background-color', '#A39F8B');
-
-                        likeButton.hover(function () {
-                            likeButton.css('color', '#D1CBB3');
-                            likeButton.css('background-color', '#49463D');
-                        }, function () {
-                            likeButton.css('color', '#49463D');
-                            likeButton.css('background-color', '#A39F8B');
-                        })
-
                     },
                 });
+
+                likeButton.css('color', '#49463D');
+                likeButton.css('background-color', '#A39F8B');
+
+                likeButton.hover(function () {
+                    likeButton.css('color', '#D1CBB3');
+                    likeButton.css('background-color', '#49463D');
+                }, function () {
+                    likeButton.css('color', '#49463D');
+                    likeButton.css('background-color', '#A39F8B');
+                })
+
+                likeSection.text(parseInt(likeSection.text()) - 1)
             }
 
-            var likeSection = getDiv.find('.like-section');
+            {{--$.ajax({--}}
+            {{--type: "POST",--}}
+            {{--url: "{{url('/postVideo/getLike')}}",--}}
+            {{--data: likeId,--}}
+            {{--dataTy: 'json',--}}
+            {{--success: function (data) {--}}
 
-            $.ajax({
-                type: "POST",
-                url: "{{url('/postVideo/getLike')}}",
-                data: likeId,
-                dataTy: 'json',
-                success: function (data) {
+            {{--likeSection.text(data).append('<i>&nbsp;</i>').append($('<i class="fas fa-heart"></i>'))--}}
 
-                    likeSection.text(data).append('<i>&nbsp;</i>').append($('<i class="fas fa-heart"></i>'))
-
-                },
-            });
+            {{--},--}}
+            {{--});--}}
 
         });
 

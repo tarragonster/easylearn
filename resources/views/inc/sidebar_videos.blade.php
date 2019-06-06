@@ -80,7 +80,8 @@
                     var count = $('.outer-word-display').length + 1;
                     console.log(count);
 
-                    $('.outer-def-container').html(data);
+                    $('.def-content').html(data.videoPosts);
+                    $('.endless-pagination').data('next-page',data.next_page);
 
                     convertHTML()
 
@@ -92,12 +93,11 @@
 
                     resetVid(modal)
 
+                    $('.fade').modal('hide')
 
                 }else{
                     window.location.href = "{{url('/postVideo/show')}}"
                     }
-
-                    $('.fade').modal('hide')
                 },
                 async: false,
             });

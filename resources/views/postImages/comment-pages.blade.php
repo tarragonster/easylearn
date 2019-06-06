@@ -42,7 +42,8 @@
                     <div class="d-none">{{$n++}}</div>
                     <div class="outer-word-display shadow rounded">
                         <a class="word-link"
-                           href="/postImage/comment/{{$imagePost->id}}" style="pointer-events: none;">{{$imagePost->title}}</a>
+                           href="/postImage/comment/{{$imagePost->id}}"
+                           style="pointer-events: none;">{{$imagePost->title}}</a>
 
                         @if(Auth::check())
                             <div class="currentId d-none">{{Auth::user()->id}}</div>
@@ -59,9 +60,10 @@
                         @if(Auth::check() && Auth::user()->id == $imagePost->user_id)
                             <div class="word-icon">
 
-                                <i class="fas fa-edit" data-toggle="modal"
-                                   data-target="#editing{{$n}}"></i>
-                                <i class="fas fa-trash-alt"></i>
+                                <i class="fas fa-edit imageEdit" data-toggle="modal"
+                                   data-target="#editing" id="{{$imagePost->id}}"></i>
+                                <i class="fas fa-trash-alt imageDel" data-toggle="modal"
+                                   data-target="#confirmModal" id="delThis{{$imagePost->id}}"></i>
                             </div>
                         @else
                             <div class="word-icon">
@@ -81,9 +83,12 @@
                                 <div class="post-div-btn">
                                     <div class="like-name-comment">
                                         <div class="like-comment">
-                                            <div class="like-section">{{$imagePost->sumLike}} <i
-                                                    class="fas fa-heart"></i></div>
-                                            <a class="comment-tag" href="/postImage/comment/{{$imagePost->id}}" style="pointer-events: none;">{{$imagePost->sumComment}} comments</a>
+                                            <div class="like-section">
+                                                <span class="sumLike">{{$imagePost->sumLike}}</span> <i>&nbsp</i>
+                                                <i class="fas fa-heart"></i>
+                                            </div>
+                                            <a class="comment-tag" href="/postImage/comment/{{$imagePost->id}}"
+                                               style="pointer-events: none;">{{$imagePost->sumComment}} comments</a>
                                         </div>
                                         <div class="user-info">
                                             <div class="post-name">{{$imagePost->user[0]->name}}</div>
@@ -108,7 +113,8 @@
                                         <i class="fas fa-comment"></i> comment
                                     </button>
 
-                                    <span class="timeCount">{{Carbon\Carbon::parse($imagePost->created_at)->diffForHumans()}}</span>
+                                    <span
+                                        class="timeCount">{{Carbon\Carbon::parse($imagePost->created_at)->diffForHumans()}}</span>
                                 </div>
                             </div>
                         </div>
@@ -145,11 +151,10 @@
                                 </div>
                             </div>
                         </div>
-
-                        @include('postImages.editing')
                     </div>
-
                 </div>
+                @include('postImages.editing')
+                @include('postImages.modal-delete-imagePost')
             </div>
         </div>
     </div>
@@ -194,7 +199,7 @@
 
             $('.word-link').each(function () {
 
-                var post ={
+                var post = {
                     id: $(this).attr('href').substr(19),
 
                     commentCount: function () {
@@ -206,19 +211,19 @@
 
                 console.log(post.commentCount())
 
-                injectCommentCount($(this),post.commentCount())
+                injectCommentCount($(this), post.commentCount())
             })
         }
 
-        function theCount(id){
+        function theCount(id) {
             var theData;
 
             $.ajax({
                 type: 'POST',
                 url: "{{url('/postImage/commentCount')}}",
-                dataTy:'json',
-                data: {id:id},
-                async:false,
+                dataTy: 'json',
+                data: {id: id},
+                async: false,
                 success: function (data) {
                     theData = data
                 }
@@ -227,11 +232,11 @@
             return theData
         }
 
-        function injectCommentCount(theLink,theCount){
+        function injectCommentCount(theLink, theCount) {
 
             var comment = theLink.parent().find('.comment-tag');
 
-            comment.text(theCount +' comments')
+            comment.text(theCount + ' comments')
         }
 
         //Using postId to get row in comment table
@@ -284,29 +289,29 @@
 
         }
 
-        $('.fa-trash-alt').click(function () {
-            var getId = $(this).parent().parent().find('.word-link').attr('href').substr(19);
+        {{--$('.fa-trash-alt').click(function () {--}}
+            {{--var getId = $(this).parent().parent().find('.word-link').attr('href').substr(19);--}}
 
-            var outerDel = $(this).parent().parent();
+            {{--var outerDel = $(this).parent().parent();--}}
 
-            var delId = {getId: getId};
+            {{--var delId = {getId: getId};--}}
 
-            $.ajax({
-                type: "POST",
-                url: "{{url('/postImage/delete')}}",
-                data: delId,
-                dataTy: 'json',
-                success: function (data) {
-                    outerDel.remove();
+            {{--$.ajax({--}}
+                {{--type: "POST",--}}
+                {{--url: "{{url('/postImage/delete')}}",--}}
+                {{--data: delId,--}}
+                {{--dataTy: 'json',--}}
+                {{--success: function (data) {--}}
+                    {{--outerDel.remove();--}}
 
-                    $('.prompt-msg').empty();
+                    {{--$('.prompt-msg').empty();--}}
 
-                    $('.prompt-msg').append($('<span>Removed</span>')).show().delay(3000).fadeOut();
+                    {{--$('.prompt-msg').append($('<span>Removed</span>')).show().delay(3000).fadeOut();--}}
 
-                },
-            });
+                {{--},--}}
+            {{--});--}}
 
-        });
+        {{--});--}}
 
         $('.like-btn').on('click', function () {
 
@@ -317,6 +322,8 @@
             var currentUserId = getDiv.find('.currentId').text();
 
             var likeButton = $(this);
+
+            var likeSection = getDiv.find('.sumLike');
 
             var likeId = {getId: getId, currentUserId: currentUserId};
 
@@ -331,20 +338,23 @@
                     dataTy: 'json',
                     success: function (data) {
 
-                        console.log(data);
 
-                        likeButton.css('color', '#BB9A81');
-                        likeButton.css('background-color', '#49463D');
-
-                        likeButton.hover(function () {
-                            likeButton.css('color', '#BB9A81');
-                            likeButton.css('background-color', '#49463D')
-                        }, function () {
-                            likeButton.css('color', '#BB9A81');
-                            likeButton.css('background-color', '#49463D')
-                        })
                     },
                 });
+
+                likeButton.css('color', '#BB9A81');
+                likeButton.css('background-color', '#49463D');
+
+                likeButton.hover(function () {
+                    likeButton.css('color', '#BB9A81');
+                    likeButton.css('background-color', '#49463D')
+                }, function () {
+                    likeButton.css('color', '#BB9A81');
+                    likeButton.css('background-color', '#49463D')
+                })
+
+                likeSection.text(parseInt(likeSection.text()) + 1)
+
             } else {
 
                 $.ajax({
@@ -354,40 +364,39 @@
                     dataTy: 'json',
                     success: function (data) {
 
-                        console.log(data);
-
-                        likeButton.css('color', '#49463D');
-                        likeButton.css('background-color', '#A39F8B');
-
-                        likeButton.hover(function () {
-                            likeButton.css('color', '#D1CBB3');
-                            likeButton.css('background-color', '#49463D');
-                        }, function () {
-                            likeButton.css('color', '#49463D');
-                            likeButton.css('background-color', '#A39F8B');
-                        })
-
                     },
                 });
+
+                likeButton.css('color', '#49463D');
+                likeButton.css('background-color', '#A39F8B');
+
+                likeButton.hover(function () {
+                    likeButton.css('color', '#D1CBB3');
+                    likeButton.css('background-color', '#49463D');
+                }, function () {
+                    likeButton.css('color', '#49463D');
+                    likeButton.css('background-color', '#A39F8B');
+                })
+
+                likeSection.text(parseInt(likeSection.text()) - 1)
+
             }
 
-            var likeSection = getDiv.find('.like-section');
+            {{--$.ajax({--}}
+                {{--type: "POST",--}}
+                {{--url: "{{url('/postImage/getLike')}}",--}}
+                {{--data: likeId,--}}
+                {{--dataTy: 'json',--}}
+                {{--success: function (data) {--}}
 
-            $.ajax({
-                type: "POST",
-                url: "{{url('/postImage/getLike')}}",
-                data: likeId,
-                dataTy: 'json',
-                success: function (data) {
+                    {{--likeSection.text(data).append('<i>&nbsp;</i>').append($('<i class="fas fa-heart"></i>'))--}}
 
-                    likeSection.text(data).append('<i>&nbsp;</i>').append($('<i class="fas fa-heart"></i>'))
-
-                },
-            });
+                {{--},--}}
+            {{--});--}}
 
         });
 
-        function postingImage(){
+        function postingImage() {
             $('.comment-form').on('submit', function (e) {
                 e.preventDefault();
 
