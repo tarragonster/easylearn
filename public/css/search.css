@@ -1249,7 +1249,8 @@ label[for=newList]{
 .elipsisBtn{
     font-family: theFont !important;
     background-color: #D1CBB3;
-    color: #49463D;
+    /*color: #49463D;*/
+    color: red;
     border: solid 1px rgba(73, 70, 61, 0.48) !important;
 }
 
