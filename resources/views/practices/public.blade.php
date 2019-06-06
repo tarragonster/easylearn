@@ -68,11 +68,12 @@
                                                id="dropdownMenuButton{{$linkList->id}}" data-toggle="dropdown"
                                                aria-haspopup="true" aria-expanded="true"></i>
 
-                                            <div class="dropdown-menu elipsisBtn" aria-labelledby="dropdownMenuButton">
+                                            <div class="dropdown-menu dropdown-menu-right elipsisBtn"
+                                                 aria-labelledby="dropdownMenuButton">
 
                                                 @if(Auth::check() && Auth::user()->id == $linkList->user_id)
-                                                <span class="delDropdown dropdown-item" data-toggle="modal"
-                                                      data-target="#publicDelModal">Delete</span>
+                                                    <span class="delDropdown dropdown-item" data-toggle="modal"
+                                                          data-target="#publicDelModal">Delete</span>
                                                 @endif
                                             </div>
                                         </div>
@@ -83,8 +84,13 @@
                                 </div>
 
                                 <div class="lower-part">
-                                    <div class="access-link">
-                                        <a href="{{$linkList->link}}">{{$linkList->list_name}}</a>
+                                    <div class="inner-creater">
+                                        <div class="access-link">
+                                            <a href="{{$linkList->link}}">{{$linkList->list_name}}</a>
+                                        </div>
+                                        <div class="review-word">
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>

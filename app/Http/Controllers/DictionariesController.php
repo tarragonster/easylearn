@@ -179,6 +179,7 @@ class DictionariesController extends Controller
             $search->update_image = $nameToDisplay;
             $search->user_id = auth()->user()->id;
             $search->checked = 0;
+            $search->shared = 0;
 
             $search->save();
 
@@ -216,6 +217,7 @@ class DictionariesController extends Controller
             $searches->update_image ='';
             $searches->user_id = Auth::user()->id;
             $searches->checked = 0;
+            $search->shared = 0;
 
             $searches->save();
             $search->delete();

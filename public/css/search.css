@@ -1248,7 +1248,6 @@ label[for=newList]{
 
 .elipsisBtn{
     font-family: theFont !important;
-    left: -81px !important;
     background-color: #D1CBB3;
     color: #49463D;
     border: solid 1px rgba(73, 70, 61, 0.48) !important;
@@ -1257,6 +1256,10 @@ label[for=newList]{
 .elipsisBtn span:hover {
     background-color: #A39F8B;
     cursor: pointer;
+}
+
+.lower-part{
+    margin-top: 10px;
 }
 
 

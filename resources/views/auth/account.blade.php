@@ -48,7 +48,7 @@
 
                                     <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
 
-                                    <div class="outer-upload account-upload upper-upload">
+                                    <div class="account-upload upper-upload">
 
                                         <input type="text" class="d-none" name="id" value="{{Auth::user()->id}}">
 
