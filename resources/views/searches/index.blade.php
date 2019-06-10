@@ -552,6 +552,8 @@
                     $('.fade').modal('hide');
                     theClickDropDown()
 
+                    $('.prompt-msg').empty();
+
                     $('.prompt-msg').append($('<span>Added to ' + data.list + '</span>')).show().delay(3000).fadeOut();
                 },
                 contentType: false,
@@ -702,6 +704,8 @@
                     data: delDetect,
                     dataTy: 'json',
                     success: function (data) {
+
+                        $('.prompt-msg').empty();
 
                         $('.prompt-msg').append($('<span>Removed from ' + data + '</span>')).show().delay(4000).fadeOut();
 
