@@ -46,7 +46,9 @@
         </div>
     </div>
 
+    @if(Auth::check())
     <div class="userId d-none">{{Auth::user()->id}}</div>
+    @endif
 
     <div class="outer-def-container">
         @if(count($defs)>0)
