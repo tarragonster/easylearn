@@ -293,4 +293,49 @@ class PostImageController extends Controller
 
         return response($post);
     }
+
+    public function search(Request $request){
+        $n = 0;
+
+        $search = $request->input('q');
+
+        $imagePosts = DB::table('image_posts')->where('title','like','%'.$search.'%')->paginate(2);
+
+        foreach ($imagePosts as $key=>$value){
+
+            $imagePosts[$key]->sumComment = Comment::GetById($value->id,true);
+            $imagePosts[$key]->user = User::GetById($value->user_id,true);
+            $imagePosts[$key]->sumLike = Like::GetById($value->id,true);
+
+            if(Auth::check()){
+                $imagePosts[$key]->allLike = Like::GetCurrentLike($value->id,true);
+            }
+        }
+
+        if($request->ajax()){
+
+            $pSearch = $request->input('searchInfo');
+
+            $pImagePosts = DB::table('image_posts')->where('title','like','%'.$pSearch.'%')->paginate(2);
+
+            foreach ($pImagePosts as $key=>$value){
+
+                $pImagePosts[$key]->sumComment = Comment::GetById($value->id,true);
+                $pImagePosts[$key]->user = User::GetById($value->user_id,true);
+                $pImagePosts[$key]->sumLike = Like::GetById($value->id,true);
+
+                if(Auth::check()){
+                    $pImagePosts[$key]->allLike = Like::GetCurrentLike($value->id,true);
+                }
+            }
+
+            return [
+                'imagePosts' => view('postImages.ajax-posting-part')->with('imagePosts',$pImagePosts)->with('n',$n)->render(),
+                'next_page' => $pImagePosts->appends($pSearch)->nextPageUrl()
+            ];
+        }
+
+        return view('postImages.show')->with('imagePosts',$imagePosts)->with('n',$n)->with('q',$search);
+
+    }
 }

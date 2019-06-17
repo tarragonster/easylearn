@@ -12,6 +12,8 @@ use Royalmar\HtmlDomParser\HtmlDomParser;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use App\Like;
+use App\Comment;
 use App\Video;
 
 
@@ -260,5 +262,50 @@ class PostVideoController extends Controller
         $video = DB::table('videos')->where('id', $id)->get();
 
         return response($video);
+    }
+
+    public function search(Request $request){
+        $n = 0;
+
+        $search = $request->input('q');
+
+        $videoPosts = DB::table('videos')->where('title','like','%'.$search.'%')->paginate(2);
+
+        foreach ($videoPosts as $key=>$value){
+
+            $videoPosts[$key]->sumComment = Comment::GetById($value->id,true);
+            $videoPosts[$key]->user = User::GetById($value->user_id,true);
+            $videoPosts[$key]->sumLike = Like::GetById($value->id,true);
+
+            if(Auth::check()){
+                $videoPosts[$key]->allLike = Like::GetCurrentLike($value->id,true);
+            }
+        }
+
+        if($request->ajax()){
+
+            $pSearch = $request->input('searchInfo');
+
+            $pVideoPosts = DB::table('videos')->where('title','like','%'.$pSearch.'%')->paginate(2);
+
+            foreach ($pVideoPosts as $key=>$value){
+
+                $pVideoPosts[$key]->sumComment = Comment::GetById($value->id,true);
+                $pVideoPosts[$key]->user = User::GetById($value->user_id,true);
+                $pVideoPosts[$key]->sumLike = Like::GetById($value->id,true);
+
+                if(Auth::check()){
+                    $pVideoPosts[$key]->allLike = Like::GetCurrentLike($value->id,true);
+                }
+            }
+
+            return [
+                'videoPosts' => view('postVideos.ajax-posting-part')->with('videoPosts',$pVideoPosts)->with('n',$n)->render(),
+                'next_page' => $pVideoPosts->appends($pSearch)->nextPageUrl()
+            ];
+        }
+
+        return view('postVideos.show')->with('videoPosts',$videoPosts)->with('n',$n)->with('q',$search);
+
     }
 }

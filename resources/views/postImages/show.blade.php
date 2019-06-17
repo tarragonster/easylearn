@@ -18,13 +18,13 @@
         </div>
         <div class="heading searching shadow rounded">
             <div class="inner-heading search-bar">
-                {!! Form::open(['action'=>'DictionariesController@search','method'=>'GET','class'=>'search-form']) !!}
+                {!! Form::open(['action'=>'PostImageController@search','method'=>'GET','class'=>'search-form']) !!}
 
                 <div class="input-group">
 
                     {{Form::text('q',$q,['class'=>'form','placeholder'=>'Search'])}}
 
-                    {{Form::select('language', ['E' => 'English', 'K' => 'Korean'],$selectOption,['class'=>'btn-select dropdown-toggle'])}}
+                    <div class="search-info d-none">{{$q}}</div>
 
                     {{Form::button('<i class="fas fa-search"></i>',['class'=>'btn-search','type'=>'submit'])}}
 
@@ -214,11 +214,14 @@
 
             var page = $('.endless-pagination').data('next-page');
 
-            if(page !== null){
+            console.log(page);
+
+            if(page !== null && page !== ''){
 
                 clearTimeout($.data(this,'scrollCheck'));
 
                 $.data(this,'scrollCheck',setTimeout(function () {
+
                     var scrollPositionForLoad = $(window).height() +$(window).scrollTop()+100;
 
                     if(scrollPositionForLoad >= $(document).height()){
@@ -227,16 +230,42 @@
 
                         if(isScroll == true){
                             isScroll = false;
-                            $.get(page,function(data){
 
-                                $('.def-content').append(data.imagePosts);
-                                $('.endless-pagination').data('next-page',data.next_page);
-                                isScroll=true;
-                                checkCurrentLike();
+                            if(window.location.pathname === "/postImage/search"){
+
+                                var searchInfo = $('.search-info').text();
+
+                                $.ajax({
+                                    type: 'GET',
+                                    url: page,
+                                    dataTy:'json',
+                                    data: {searchInfo:searchInfo},
+                                    async:false,
+                                    success: function (data) {
+
+                                        console.log(data);
+
+                                        $('.def-content').append(data.imagePosts);
+                                        $('.endless-pagination').data('next-page',data.next_page);
+                                        isScroll=true;
+                                        checkCurrentLike();
+
+                                        $('.loader').css('display','none');
+                                    }
+                                });
+
+                            }else{
+                                $.get(page,function(data){
+
+                                    $('.def-content').append(data.imagePosts);
+                                    $('.endless-pagination').data('next-page',data.next_page);
+                                    isScroll=true;
+                                    checkCurrentLike();
 
 
-                                $('.loader').css('display','none');
-                            });
+                                    $('.loader').css('display','none');
+                                });
+                            }
                         }
                     }
                 },350))

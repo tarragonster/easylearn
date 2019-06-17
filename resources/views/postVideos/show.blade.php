@@ -18,13 +18,13 @@
         </div>
         <div class="heading searching shadow rounded">
             <div class="inner-heading search-bar">
-                {!! Form::open(['action'=>'DictionariesController@search','method'=>'GET','class'=>'search-form']) !!}
+                {!! Form::open(['action'=>'PostVideoController@search','method'=>'GET','class'=>'search-form']) !!}
 
                 <div class="input-group">
 
                     {{Form::text('q',$q,['class'=>'form','placeholder'=>'Search'])}}
 
-                    {{Form::select('language', ['E' => 'English', 'K' => 'Korean'],$selectOption,['class'=>'btn-select dropdown-toggle'])}}
+                    <div class="search-info d-none">{{$q}}</div>
 
                     {{Form::button('<i class="fas fa-search"></i>',['class'=>'btn-search','type'=>'submit'])}}
 
@@ -49,14 +49,6 @@
             convertHTML();
 
             checkCurrentLike();
-
-            // addLike()
-
-            // showVidModal()
-
-            // closeVidModal()
-
-            // displayCommentNum()
 
         });
 
@@ -300,7 +292,7 @@
 
             var page = $('.endless-pagination').data('next-page');
 
-            if(page !== null){
+            if(page !== null && page !== ''){
 
                 clearTimeout($.data(this,'scrollCheck'));
 
@@ -313,26 +305,50 @@
 
                         if(isScroll == true){
                             isScroll = false;
-                            $.get(page,function(data){
+                            if (window.location.pathname === "/postVideo/search") {
 
-                                $('.def-content').append(data.videoPosts);
-                                $('.endless-pagination').data('next-page',data.next_page);
+                                var searchInfo = $('.search-info').text();
 
-                                isScroll=true;
+                                $.ajax({
+                                    type: 'GET',
+                                    url: page,
+                                    dataTy:'json',
+                                    data: {searchInfo:searchInfo},
+                                    async:false,
+                                    success: function (data) {
 
-                                $('.loader').css('display','none');
+                                        $('.def-content').append(data.videoPosts);
+                                        $('.endless-pagination').data('next-page',data.next_page);
 
-                                convertHTML();
+                                        isScroll=true;
 
-                                checkCurrentLike();
+                                        $('.loader').css('display','none');
 
-                                // addLike();
+                                        convertHTML();
 
-                                // showVidModal();
+                                        checkCurrentLike();
+                                    }
+                                });
 
-                                // closeVidModal()
-                            });
+                            }else{
 
+                                $.get(page,function(data){
+
+                                    $('.def-content').append(data.videoPosts);
+                                    $('.endless-pagination').data('next-page',data.next_page);
+
+                                    isScroll=true;
+
+                                    $('.loader').css('display','none');
+
+                                    convertHTML();
+
+                                    checkCurrentLike();
+
+
+                                });
+
+                            }
                         }
                     }
                 },350))

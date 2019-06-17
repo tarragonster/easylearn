@@ -81,6 +81,7 @@ Route::post('/postImage/reverseLike','PostImageController@reverseLike');
 Route::post('/postImage/getLike','PostImageController@getLike');
 Route::post('/postImage/update','PostImageController@update');
 Route::post('/postImage/restartModal','PostImageController@restartModal');
+Route::get('/postImage/search','PostImageController@search');
 
 Route::get('/pagination','PagesController@fetch_data');
 
@@ -97,6 +98,8 @@ Route::get('/postVideo/comment/{postId}','PostVideoController@comment');
 Route::post('/postVideo/commentCount','PostVideoController@countComment');
 Route::post('/postVideo/commentInput','PostVideoController@inputComment');
 Route::post('/postVideo/commentGet','PostVideoController@getComment');
+Route::get('/postVideo/search','PostVideoController@search');
+
 
 Route::post('/postVideo/update','PostVideoController@update');
 Route::post('/postVideo/restartModal','PostVideoController@restartModal');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Providers\CacheLog;
 use App\Providers\TranslateFree;
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Http\Request;
 use Royalmar\HtmlDomParser\HtmlDomParser;
 use Illuminate\Support\Facades\Auth;
@@ -94,7 +95,7 @@ class DictionariesController extends Controller
         } else {
             $link = 'https://endic.naver.com/search.nhn?sLn=en&isOnlyViewEE=N&query=' . $q;
             $html = $parser->fileGetHtml($link);
-            $word = $html->find("span.fnt_e30", 0);
+            $word = $html->find("span.fnt_e30 strong", 0);
 
             if (isset($word) == false) {
 
@@ -113,7 +114,7 @@ class DictionariesController extends Controller
                 $n = 0;
                 $t = -1;
                 $k = 0;
-                $display = $word->plaintext;
+                $display = str_replace(' ','',$word->plaintext);
                 $type = '';
 
                 $defs = array();
@@ -126,8 +127,17 @@ class DictionariesController extends Controller
                     }
                 }
 
+                $example = array();
+                for ($i = 0; $i < 5; $i++) {
+                    $example[] = $html->find("div.fnt_k10", $i);
+                    if (isset($example[$i]) == false) {
+                        $example[$i] = '';
+                    } else {
+                        $example[$i] = str_replace(' ','',$html->find("div.fnt_k10", $i)->plaintext);
+                    }
+                }
+
                 $spelling = '';
-                $example = '';
 
                 return view('searches.index')->with('defs', $defs)->with('display', $display)
                     ->with('spelling', $spelling)->with('type', $type)->with('example', $example)
