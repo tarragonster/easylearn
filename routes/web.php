@@ -39,6 +39,7 @@ Route::post('/lists/practice/checked','PracticeController@checked');
 Route::post('/lists/practice/onload','PracticeController@onload');
 Route::post('/lists/practice/sumCheck','PracticeController@sumCheck');
 Route::post('/lists/practice/reset','PracticeController@reset');
+Route::post('/lists/practice/clicked','PracticeController@clicked');
 
 Route::get('/dictionary', 'DictionariesController@dictionary');
 Route::any('/search', 'DictionariesController@search');

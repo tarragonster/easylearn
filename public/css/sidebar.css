@@ -89,11 +89,11 @@
 }
 .contain-link:hover .side-link{
     text-decoration: none;
-    background-color: #49463D;
+    background-color: rgba(73,70,61,0.48);
     color: #C7C2AA;
 }
 .contain-link:hover{
-    background-color: #49463D;
+    background-color: rgba(73,70,61,0.48);
 }
 
 #div-link{

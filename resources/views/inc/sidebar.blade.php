@@ -50,6 +50,7 @@
                         <h3 class="contain-link"><a class="side-link"
                                                     href="/lists/{{$sidebar->list}}/practice/{{Auth::user()->id}}"><i
                                     class="fas fa-folder"></i> {{$sidebar->list}}</a></h3>
+                        <div class="color-check d-none">{{$sidebar->sumClick}}</div>
                     </div>
                 @endforeach
             @else
@@ -71,6 +72,8 @@
 
 <script>
     $(document).ready(function () {
+        changeColor()
+
         $('.menu').click(function () {
             $('#mySidenav').toggleClass('sidebar-active')
         })
@@ -84,6 +87,41 @@
 
         }
     })
+    
+    $('.side-link').on('click',function () {
+
+        var listName = $(this).text();
+
+        $(this).css('background-color','#49463D');
+        $(this).css('color','#D1CBB3');
+
+        $.ajax({
+            type: "POST",
+            url: "{{url('/lists/practice/clicked')}}",
+            data: {listName:listName},
+            dataTy: 'json',
+            success: function (data) {
+
+            },
+        });
+
+    })
+
+    function changeColor(){
+
+        $('.color-check').each(function () {
+
+            var sumClick = $(this).text();
+
+            console.log(sumClick)
+            var targetChange = $(this).parent().find('.side-link');
+
+            if(sumClick != 0){
+                targetChange.css('color','#D1CBB3');
+                targetChange.css('background-color','#49463D')
+            }
+        })
+    }
 
 
 </script>

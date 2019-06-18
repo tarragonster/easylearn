@@ -229,4 +229,17 @@ class PracticeController extends Controller
         return response($checkShare);
     }
 
+    public function clicked(Request $request){
+
+        $listName = $request->input('listName');
+
+        $userId = Auth::user()->id;
+
+        $otherClick = DB::table('searches')->where('user_id',$userId)->update(['clicked'=>0]);
+
+        $clicked = DB::table('searches')->where('list',$listName)->where('user_id',$userId)->update(['clicked'=>1]);
+
+        return response($clicked);
+    }
+
 }

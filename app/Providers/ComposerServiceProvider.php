@@ -19,6 +19,12 @@ class ComposerServiceProvider extends ServiceProvider
         view()->composer('inc.sidebar', function($view){
             if (Auth::check()) {
                 $sidebars = DB::table('searches')->where('user_id', Auth::user()->id)->select('list')->distinct()->get();
+
+                foreach ($sidebars as $sidebar){
+
+                    $sidebar->sumClick = DB::table('searches')->where('list',$sidebar->list)->where('user_id',Auth::user()->id)->sum('clicked');
+                }
+
                 $view->with('sidebars', $sidebars);
             }else{
                 $view->with('sidebars', null);
