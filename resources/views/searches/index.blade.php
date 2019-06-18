@@ -13,12 +13,16 @@
                 <div class="inner-heading">
                     <h4 id="display">{{$display}}
 
-                        @if($selectOption=='E' && $display!='')
+                        @if($selectOption=='E' && $display!=''|| $selectOption=='V' && $display!='')
                             <input onclick='responsiveVoice.speak("{{$display}}","UK English Male");' type='button'
                                    value='🔊'
                                    class="speaker"/>
                         @elseif($selectOption=='K' && $display!='')
                             <input onclick='responsiveVoice.speak("{{$display}}","Korean Female");' type='button'
+                                   value='🔊'
+                                   class="speaker"/>
+                        @elseif($selectOption=='J' && $display!='')
+                            <input onclick='responsiveVoice.speak("{{$display}}","Japanese Male");' type='button'
                                    value='🔊'
                                    class="speaker"/>
                         @endif</h4>
@@ -36,7 +40,7 @@
 
                     {{Form::text('q',$q,['class'=>'form','placeholder'=>'Search'])}}
 
-                    {{Form::select('language', ['E' => 'English', 'K' => 'Korean'],$selectOption,['class'=>'btn-select dropdown-toggle'])}}
+                    {{Form::select('language', ['E' => 'English', 'K' => 'Korean', 'V' => 'Vi-En', 'J' => 'Japanese'],$selectOption,['class'=>'btn-select dropdown-toggle'])}}
 
                     {{Form::button('<i class="fas fa-search"></i>',['class'=>'btn-search','type'=>'submit'])}}
 

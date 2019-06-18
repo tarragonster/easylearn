@@ -17,7 +17,7 @@
 
                         {{Form::text('q',$q,['class'=>'form','placeholder'=>'Search'])}}
 
-                        {{Form::select('language', ['E' => 'English', 'K' => 'Korean'],$selectOption,['class'=>'btn-select dropdown-toggle'])}}
+                        {{Form::select('language', ['E' => 'English', 'K' => 'Korean', 'V' => 'Vi-En', 'J' => 'Japanese'],$selectOption,['class'=>'btn-select dropdown-toggle'])}}
 
                         {{Form::button('<i class="fas fa-search"></i>',['class'=>'btn-search','type'=>'submit'])}}
 
