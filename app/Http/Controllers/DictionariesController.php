@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\DB;
 use App\Search;
+//use App\Providers\Personnel;
 
 class DictionariesController extends Controller
 {
@@ -256,8 +257,11 @@ class DictionariesController extends Controller
 
     public function test()
     {
+        $personnel = new Personnel();
 
+        dd($personnel->uploadFile($_FILES, 'testfile'));
     }
+
 
     public function store(Request $request)
     {
@@ -268,6 +272,12 @@ class DictionariesController extends Controller
 
         //Handle file upload
         if ($request->hasFile('update_image')) {
+
+//            $upload = new Personnel();
+//            $upload->request = $request;
+//
+//            $path = $upload->uploadFile($request,'testfile');
+
             //Get filename with extension
             $fileNameWithExt = $request->file('update_image')->getClientOriginalName();
             //Get just filename
@@ -300,6 +310,7 @@ class DictionariesController extends Controller
             $search->user_id = auth()->user()->id;
             $search->checked = 0;
             $search->shared = 0;
+            $search->clicked = 0;
 
             $search->save();
 
