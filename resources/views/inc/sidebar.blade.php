@@ -48,7 +48,7 @@
                 @foreach($sidebars as $sidebar)
                     <div id="div-link">
                         <h3 class="contain-link"><a class="side-link"
-                                                    href="/lists/{{$sidebar->list}}/practice/{{Auth::user()->id}}" style="pointer-events:none"><i
+                                                    href="/lists/{{$sidebar->list}}/practice/{{Auth::user()->id}}"><i
                                     class="fas fa-folder"></i> {{$sidebar->list}}</a></h3>
                         <div class="color-check d-none">{{$sidebar->sumClick}}</div>
                     </div>
@@ -71,22 +71,17 @@
 @include('inc.sidebar_videos')
 
 <script>
-
-    $( document ).ajaxStop(function() {
-
-        $('.side-link').css('pointer-events','auto');
-
-    });
+    changeColor()
 
     $(document).ready(function () {
-
-        changeColor()
 
         $('.menu').click(function () {
             $('#mySidenav').toggleClass('sidebar-active')
         })
 
     })
+
+
 
     $(document).mouseup(function (e) {
 
@@ -110,8 +105,6 @@
             data: {listName:listName},
             dataTy: 'json',
             success: function (data) {
-
-                changeColor()
 
             },
         });
