@@ -47,8 +47,6 @@ class PagesController extends Controller
             }
         }
 
-//        dd($posts);
-
         foreach ($videos as $video){
 
             $video->sumLike = Like::GetById($video->id,true);

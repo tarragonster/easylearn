@@ -131,9 +131,9 @@
             $('.shareBtn').css('display','block')
         });
 
-        $('.elipsisBtn').click(function(e) {
-            e.stopPropagation();
-        });
+        // $('.elipsisBtn').click(function(e) {
+        //     e.stopPropagation();
+        // });
 
         window.onload = function(){
 
