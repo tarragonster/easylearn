@@ -258,14 +258,18 @@
                             });
                         }
                     }
-
+                    //   speak event after clicking on this link
+                    if (thisClick.nextAll().eq(1).css('display') !== 'none') {
+                        if(p.language == "E" || p.language == "V"){
+                            responsiveVoice.speak(thisClick.text(), "UK English Male")
+                        }else if(p.language == "J"){
+                            responsiveVoice.speak(thisClick.text(), "Japanese Male")
+                        }else if(p.language == "K"){
+                            responsiveVoice.speak(thisClick.text(), "Korean Female")
+                        }
+                    }
                 })
             });
-
-            //   speak event after clicking on this link
-            if (thisClick.nextAll().eq(1).css('display') === 'none') {
-                responsiveVoice.speak($(this).text(), "UK English Male")
-            }
         });
 
 
